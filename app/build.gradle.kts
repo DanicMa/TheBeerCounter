@@ -1,5 +1,6 @@
 plugins {
     id("com.android.application")
+    id("kotlin-kapt")
     kotlin("android")
 }
 
@@ -73,6 +74,15 @@ dependencies {
     implementation("io.insert-koin:koin-androidx-navigation:$koinVersion")
     implementation("io.insert-koin:koin-androidx-compose:$koinVersion")
     testImplementation("io.insert-koin:koin-test-junit4:$koinVersion")
+
+    val room_version = "2.5.1"
+
+    // ROOM
+    implementation("androidx.room:room-runtime:$room_version")
+    annotationProcessor("androidx.room:room-compiler:$room_version")
+    kapt("androidx.room:room-compiler:$room_version")
+    implementation("androidx.room:room-ktx:$room_version")
+
 
     // TESTS
     testImplementation("junit:junit:4.13.2")
