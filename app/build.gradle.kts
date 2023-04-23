@@ -59,6 +59,13 @@ dependencies {
     debugImplementation("androidx.compose.ui:ui-tooling:$composeVersion")
     debugImplementation("androidx.compose.ui:ui-test-manifest:$composeVersion")
     implementation("androidx.navigation:navigation-compose:2.5.3")
+    implementation("androidx.compose.ui:ui-tooling-preview:1.4.2")
+
+    // IMMUTABLE COLLECTIONS FOR KOTLIN (for composable methods stability)
+    implementation("org.jetbrains.kotlinx:kotlinx-collections-immutable:0.3.5")
+
+    // LIFECYCLE AWARE FLOW COLLECTION (for lifecycle aware viewstate collection in compose)
+    implementation("androidx.lifecycle:lifecycle-runtime-compose:2.6.1")
 
     //KOIN
     val koinVersion = "3.4.0"
@@ -66,11 +73,6 @@ dependencies {
     implementation("io.insert-koin:koin-androidx-navigation:$koinVersion")
     implementation("io.insert-koin:koin-androidx-compose:$koinVersion")
     testImplementation("io.insert-koin:koin-test-junit4:$koinVersion")
-
-//    def koin_version = "3.1.2"
-//    api "io.insert-koin:koin-core:$koin_version"
-//    api "io.insert-koin:koin-android:$koin_version"
-//    api "io.insert-koin:koin-androidx-compose:$koin_version"
 
     // TESTS
     testImplementation("junit:junit:4.13.2")

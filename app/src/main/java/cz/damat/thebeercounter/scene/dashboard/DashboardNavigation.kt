@@ -8,7 +8,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.*
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
@@ -20,10 +21,11 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import cz.damat.thebeercounter.R
+import cz.damat.thebeercounter.scene.counter.CounterScreen
 import cz.damat.thebeercounter.ui.theme.medium
 
 /**
- * Created by Matej Danicek on 23.04.23.
+ * Created by MD on 23.04.23.
  */
 @Composable
 fun DashboardNavigation() {
@@ -52,7 +54,7 @@ private fun NavigationHost(navController: NavHostController, paddingValues: Padd
         DashboardNavigationItem.values().forEach { navigationItem ->
             composable(navigationItem.route) {
                 when (navigationItem) {
-                    DashboardNavigationItem.Counter -> Text(text = navigationItem.route)
+                    DashboardNavigationItem.Counter -> CounterScreen()
                     DashboardNavigationItem.History -> Text(text = navigationItem.route)
                     DashboardNavigationItem.More -> Text(text = navigationItem.route)
                 }
