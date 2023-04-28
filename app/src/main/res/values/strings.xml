@@ -4,4 +4,8 @@
     <string name="counter">Counter</string>
     <string name="history">History</string>
     <string name="more">More</string>
+
+    <string name="action_reset">Reset</string>
+    <string name="action_delete">Delete</string>
+    <string name="action_set_count">Set count</string>
 </resources>

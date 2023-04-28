@@ -12,16 +12,18 @@ private val DarkColorPalette = darkColors(
     //todo
     primary = Gold,
     primaryVariant = GoldDark,
+    background = Color.Black,
+    surface = Color(0xff212124)
 )
 
 private val LightColorPalette = lightColors(
     primary = GoldDark,
     primaryVariant = Gold,
+    background = Color(0xffecf1fc),
+    surface = Color.White,
 
     /* Other default colors to override
     secondary =
-    background = Color.White,
-    surface = Color.White,
     onPrimary = Color.White,
     onSecondary = Color.Black,
     onBackground = Color.Black,
@@ -30,7 +32,7 @@ private val LightColorPalette = lightColors(
 )
 
 @get:Composable
-val Colors.disabled : Color
+val Colors.disabled: Color
     get() = DisabledGrey //if (isLight) DisabledGrey else DisabledGrey
 
 

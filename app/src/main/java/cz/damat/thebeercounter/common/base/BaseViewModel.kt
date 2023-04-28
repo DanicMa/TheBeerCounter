@@ -59,6 +59,15 @@ abstract class BaseViewModel<STATE : ViewState, EVENT : ViewEvent, COMMAND : Vie
     }
 
     /**
+     * Gets the current view state.
+     */
+    protected fun currentState(): STATE {
+        synchronized(_stateFlow) {
+            return _stateFlow.value
+        }
+    }
+
+    /**
      * Updates view state with a new value.
      */
     protected fun updateState(body: STATE.() -> STATE) {

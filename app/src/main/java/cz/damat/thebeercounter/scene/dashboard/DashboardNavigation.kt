@@ -97,7 +97,6 @@ fun BottomBar(navController: NavHostController) {
                     Text(
                         text = stringResource(id = navigationItem.titleRes),
                     )
-                    //todo - colored label of the selected item
                 }
             )
         }

@@ -9,18 +9,17 @@ import java.math.BigDecimal
 /**
  * Created by MD on 23.04.23.
  */
+
+const val Id = "id"
+
 @Entity
 data class Product(
     @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = Id)
     val id: Int = 0,
-    @ColumnInfo(name = "name")
     val name: String,
-    @ColumnInfo(name = "price")
     val price : BigDecimal?,
-    @ColumnInfo(name = "count")
     val count : Int = 0,
-    @ColumnInfo(name = "shown")
     val shown : Boolean = true,
-    @ColumnInfo(name = "suggested")
     val suggested : Boolean = true,
 )
