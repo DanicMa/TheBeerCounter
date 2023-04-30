@@ -11,4 +11,5 @@ internal typealias OnEvent = (CounterEvent) -> Unit
 sealed class CounterEvent : ViewEvent {
     data class OnProductClicked(val id: Int) : CounterEvent()
     data class OnMenuItemClicked(val menuItem: MenuItem, val id: Int) : CounterEvent()
+    data class OnCountSet(val id: Int, val count : Int) : CounterEvent()
 }

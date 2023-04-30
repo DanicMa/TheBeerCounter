@@ -4,22 +4,26 @@ import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.text.TextRange
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import cz.damat.thebeercounter.R
 import cz.damat.thebeercounter.common.utils.Previews
@@ -28,6 +32,7 @@ import cz.damat.thebeercounter.common.utils.collectStateWithLifecycle
 import cz.damat.thebeercounter.common.utils.getOnEvent
 import cz.damat.thebeercounter.room.model.Product
 import cz.damat.thebeercounter.ui.component.CardThemed
+import cz.damat.thebeercounter.ui.component.DialogThemed
 import cz.damat.thebeercounter.ui.component.DropdownItem
 import cz.damat.thebeercounter.ui.component.DropdownMenu
 import cz.damat.thebeercounter.ui.theme.disabled
@@ -45,7 +50,7 @@ fun CounterScreen() {
     val viewModel: CounterScreenViewModel = get()
     val viewState = viewModel.collectStateWithLifecycle()
     val onEvent = viewModel.getOnEvent()
-    CommandCollector(viewModel = viewModel)
+    CommandCollector(viewModel = viewModel, onEvent)
 
     CounterScreenContent(viewState = viewState.value, onEvent = onEvent)
 }
@@ -57,16 +62,28 @@ private fun Preview() {
 }
 
 @Composable
-private fun CommandCollector(viewModel: CounterScreenViewModel) {
+private fun CommandCollector(
+    viewModel: CounterScreenViewModel,
+    onEvent: OnEvent
+) {
     val context = LocalContext.current
 
-    viewModel.collectCommand() {
+    val showSetCountDialogForProduct = remember {
+        mutableStateOf<Product?>(null)
+    }
+
+    viewModel.collectCommand {
         when (it) {
-            else -> {
-                //todo
+            is CounterCommand.ShowSetCountDialog -> {
+                showSetCountDialogForProduct.value = it.product
             }
         }
     }
+
+    SetCountDialog(
+        productState = showSetCountDialogForProduct,
+        onEvent = onEvent
+    )
 }
 
 
@@ -190,4 +207,62 @@ enum class MenuItem(@StringRes val titleRes: Int) {
     Reset(R.string.action_reset),
     Hide(R.string.action_delete),
     SetCount(R.string.action_set_count),
+}
+
+@OptIn(ExperimentalComposeUiApi::class)
+@Composable
+private fun SetCountDialog(productState: MutableState<Product?>, onEvent: OnEvent) {
+    val product = productState.value ?: return
+
+    val textFieldValue = remember {
+        val text = product.count.toString()
+        mutableStateOf(TextFieldValue(text = text, selection = TextRange(0, text.length)))
+    }
+
+    val focusRequester = remember { FocusRequester() }
+
+    val onConfirmClick: () -> Unit = {
+        productState.value = null
+        textFieldValue.value.text.toIntOrNull()?.let {
+            onEvent(CounterEvent.OnCountSet(product.id, it))
+        }
+    }
+
+    DialogThemed(
+        showDialog = null,
+        title = stringResource(id = R.string.action_set_count),
+        text = null,
+        confirmString = stringResource(id = R.string.action_set),
+        dismissString = stringResource(id = R.string.cancel),
+        onConfirmClick = onConfirmClick,
+        onDismissClick = {
+            productState.value = null
+        },
+        content = {
+            val keyboardController = LocalSoftwareKeyboardController.current
+
+            //todo prettier
+            TextField(
+                modifier = Modifier
+                    .padding(top = 24.dp)
+                    .focusRequester(focusRequester)
+                ,
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number, imeAction = ImeAction.Done),
+                keyboardActions = KeyboardActions(
+                    onDone = {
+                        keyboardController?.hide()
+                        onConfirmClick()
+                    }
+                ),
+                value = textFieldValue.value,
+                onValueChange = { tfv ->
+                    textFieldValue.value = tfv
+                }
+            )
+
+            LaunchedEffect(Unit) {
+                focusRequester.requestFocus()
+            }
+        }
+    )
 }

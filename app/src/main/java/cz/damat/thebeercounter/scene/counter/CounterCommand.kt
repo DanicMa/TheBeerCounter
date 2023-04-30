@@ -1,6 +1,7 @@
 package cz.damat.thebeercounter.scene.counter
 
 import cz.damat.thebeercounter.common.base.ViewCommand
+import cz.damat.thebeercounter.room.model.Product
 
 
 /**
@@ -8,4 +9,5 @@ import cz.damat.thebeercounter.common.base.ViewCommand
  */
 sealed class CounterCommand : ViewCommand {
 
+    data class ShowSetCountDialog(val product: Product) : CounterCommand()
 }

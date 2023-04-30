@@ -23,6 +23,7 @@ class CounterScreenViewModel(private val productRepository: ProductRepository) :
         when (event) {
             is CounterEvent.OnProductClicked -> onProductClick(event.id)
             is CounterEvent.OnMenuItemClicked -> onMenuItemClick(event.menuItem, event.id)
+            is CounterEvent.OnCountSet -> onCountSet(event.id, event.count)
         }
     }
 
@@ -42,9 +43,19 @@ class CounterScreenViewModel(private val productRepository: ProductRepository) :
                     productRepository.hideProduct(id)
                 }
                 MenuItem.SetCount -> {
-                    //todo
+                    currentState().products?.firstOrNull { it.id == id }?.let {
+                        defaultScope.launch {
+                            sendCommand(CounterCommand.ShowSetCountDialog(it))
+                        }
+                    }
                 }
             }
+        }
+    }
+
+    private fun onCountSet(id: Int, count: Int) {
+        ioScope.launch {
+            productRepository.setProductCount(id, count)
         }
     }
 }

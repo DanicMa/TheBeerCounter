@@ -8,4 +8,9 @@
     <string name="action_reset">Reset</string>
     <string name="action_delete">Delete</string>
     <string name="action_set_count">Set count</string>
+    <string name="action_set">Set</string>
+    <string name="count">Count</string>
+
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
 </resources>
