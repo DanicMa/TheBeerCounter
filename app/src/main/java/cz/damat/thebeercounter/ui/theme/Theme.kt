@@ -23,20 +23,7 @@ private val LightColorPalette = lightColors(
     background = Color(0xffecf1fc),
     surface = Color.White,
     onPrimary = Color.Black,
-
-    /* Other default colors to override
-    secondary =
-    onPrimary = Color.White,
-    onSecondary = Color.Black,
-    onBackground = Color.Black,
-    onSurface = Color.Black,
-    */
 )
-
-@get:Composable
-val Colors.disabled: Color
-    get() = DisabledGrey //if (isLight) DisabledGrey else DisabledGrey
-
 
 @Composable
 fun TheBeerCounterTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composable () -> Unit) {

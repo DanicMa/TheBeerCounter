@@ -33,7 +33,6 @@ import cz.damat.thebeercounter.ui.theme.medium
  */
 @Composable
 fun DashboardNavigation() {
-    //todo
     val navController = rememberNavController()
 
     Scaffold(
