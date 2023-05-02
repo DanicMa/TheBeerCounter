@@ -1,8 +1,7 @@
 package cz.damat.thebeercounter.room.typeconvertor
 
 import androidx.room.TypeConverter
-import java.math.BigDecimal
-import java.util.Date
+import java.util.*
 
 /**
  * Created by MD on 23.04.23.
