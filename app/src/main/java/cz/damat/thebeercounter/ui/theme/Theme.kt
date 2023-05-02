@@ -13,7 +13,8 @@ private val DarkColorPalette = darkColors(
     primary = Gold,
     primaryVariant = GoldDark,
     background = Color.Black,
-    surface = Color(0xff212124)
+    surface = Color(0xff212124),
+    onPrimary = Color.Black,
 )
 
 private val LightColorPalette = lightColors(
@@ -21,6 +22,7 @@ private val LightColorPalette = lightColors(
     primaryVariant = Gold,
     background = Color(0xffecf1fc),
     surface = Color.White,
+    onPrimary = Color.Black,
 
     /* Other default colors to override
     secondary =

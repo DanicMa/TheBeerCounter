@@ -1,20 +1,39 @@
 package cz.damat.thebeercounter.scene.counter
 
+import android.content.res.Resources
+import androidx.annotation.StringRes
+import cz.damat.thebeercounter.R
 import cz.damat.thebeercounter.common.base.BaseViewModel
 import cz.damat.thebeercounter.repository.ProductRepository
+import cz.damat.thebeercounter.room.model.HistoryItemType
 import kotlinx.collections.immutable.toImmutableList
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
-
 /**
  * Created by MD on 29.12.22.
  */
-class CounterScreenViewModel(private val productRepository: ProductRepository) : BaseViewModel<CounterViewState, CounterEvent, CounterCommand>(CounterViewState()) {
+@StringRes
+private const val InitialProductName = R.string.beer
+
+class CounterScreenViewModel(
+    private val productRepository: ProductRepository,
+    private val resources: Resources
+) : BaseViewModel<CounterViewState, CounterEvent, CounterCommand>(CounterViewState()) {
 
     init {
-        productRepository.productDao.getShownProductsFlow()
+        val shownProductsFlow = productRepository.getShownProductsFlow()
+
+        ioScope.launch {
+            if (shownProductsFlow.first().isEmpty()) {
+                // if there are no products in the database, add the initial one
+                productRepository.addInitialProduct(resources.getString(InitialProductName))
+            }
+        }
+
+        shownProductsFlow
             .onEach { updateState { copy(products = it.toImmutableList()) } }
             .launchIn(ioScope)
     }
@@ -24,12 +43,14 @@ class CounterScreenViewModel(private val productRepository: ProductRepository) :
             is CounterEvent.OnProductClicked -> onProductClick(event.id)
             is CounterEvent.OnMenuItemClicked -> onMenuItemClick(event.menuItem, event.id)
             is CounterEvent.OnCountSet -> onCountSet(event.id, event.count)
+            CounterEvent.OnClearAllClicked -> onClearAllClicked()
+            CounterEvent.OnClearAllConfirmed -> onClearAllConfirmed()
         }
     }
 
     private fun onProductClick(id: Int) {
         ioScope.launch {
-            productRepository.productDao.incrementProductCount(id)
+            productRepository.incrementProductCount(id)
         }
     }
 
@@ -37,7 +58,7 @@ class CounterScreenViewModel(private val productRepository: ProductRepository) :
         ioScope.launch {
             when (menuItem) {
                 MenuItem.Reset -> {
-                    productRepository.resetProductCount(id)
+                    productRepository.setProductCount(id, 0, HistoryItemType.RESET)
                 }
                 MenuItem.Hide -> {
                     productRepository.hideProduct(id)
@@ -55,7 +76,19 @@ class CounterScreenViewModel(private val productRepository: ProductRepository) :
 
     private fun onCountSet(id: Int, count: Int) {
         ioScope.launch {
-            productRepository.setProductCount(id, count)
+            productRepository.setProductCount(id, count, HistoryItemType.MANUAL)
         }
+    }
+
+    private fun onClearAllClicked() {
+        defaultScope.launch {
+            sendCommand(CounterCommand.ShowClearAllConfirmDialog)
+        }
+    }
+
+    private fun onClearAllConfirmed() {
+       ioScope.launch {
+              productRepository.clearAllAndAddInitialProduct(resources.getString(InitialProductName))
+       }
     }
 }

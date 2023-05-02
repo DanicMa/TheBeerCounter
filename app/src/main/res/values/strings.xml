@@ -9,8 +9,15 @@
     <string name="action_delete">Delete</string>
     <string name="action_set_count">Set count</string>
     <string name="action_set">Set</string>
+    <string name="action_clear_all">Clear all</string>
+
     <string name="count">Count</string>
+    <string name="your_tab">Your tab:</string>
 
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
+    <string name="clear">Clear</string>
+
+    <string name="beer">Beer</string>
+    <string name="clear_all_confirm_message">Do you really want to delete all items?</string>
 </resources>

@@ -5,6 +5,7 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import androidx.sqlite.db.SupportSQLiteDatabase
 import cz.damat.thebeercounter.common.utils.baseCoroutineExceptionHandler
+import cz.damat.thebeercounter.room.dao.HistoryItemDao
 import cz.damat.thebeercounter.room.dao.ProductDao
 import cz.damat.thebeercounter.room.model.HistoryItem
 import cz.damat.thebeercounter.room.model.Product
@@ -25,22 +26,5 @@ import org.koin.core.component.inject
 @TypeConverters(BigDecimalTypeConverter::class, DateTypeConverter::class, HistoryItemTypeTypeConverter::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun productDao(): ProductDao
-}
-
-class DatabaseCallback : RoomDatabase.Callback(), KoinComponent {
-
-    private val productDao: ProductDao by inject()
-
-    override fun onCreate(db: SupportSQLiteDatabase) {
-        super.onCreate(db)
-
-        CoroutineScope(Dispatchers.IO + baseCoroutineExceptionHandler).launch {
-            //todo
-            productDao.saveProduct(Product(name = "Beer", price = 55.toBigDecimal()))
-            productDao.saveProduct(Product(name = "Shots", price = 59.toBigDecimal()))
-            productDao.saveProduct(Product(name = "Cocktail", price = 69.toBigDecimal()))
-            productDao.saveProduct(Product(name = "Food", price = 55.toBigDecimal()))
-//            productRepository.saveProduct(Product(name = "Shot", price =  69.toBigDecimal(), count =  1, shown = true, suggested = true))
-        }
-    }
+    abstract fun historyItemDao(): HistoryItemDao
 }

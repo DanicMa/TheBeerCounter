@@ -10,6 +10,7 @@ import java.math.BigDecimal
  * Created by MD on 23.04.23.
  */
 
+const val InitialItemId = 1
 const val Id = "id"
 
 @Entity

@@ -1,12 +1,16 @@
 package cz.damat.thebeercounter.scene.counter
 
 import androidx.annotation.StringRes
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
@@ -16,7 +20,6 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
@@ -31,15 +34,11 @@ import cz.damat.thebeercounter.common.utils.collectCommand
 import cz.damat.thebeercounter.common.utils.collectStateWithLifecycle
 import cz.damat.thebeercounter.common.utils.getOnEvent
 import cz.damat.thebeercounter.room.model.Product
-import cz.damat.thebeercounter.ui.component.CardThemed
-import cz.damat.thebeercounter.ui.component.DialogThemed
-import cz.damat.thebeercounter.ui.component.DropdownItem
-import cz.damat.thebeercounter.ui.component.DropdownMenu
+import cz.damat.thebeercounter.ui.component.*
 import cz.damat.thebeercounter.ui.theme.disabled
 import org.koin.androidx.compose.get
 import java.text.NumberFormat
-import java.util.Currency
-import java.util.Locale
+import java.util.*
 
 
 /**
@@ -66,10 +65,12 @@ private fun CommandCollector(
     viewModel: CounterScreenViewModel,
     onEvent: OnEvent
 ) {
-    val context = LocalContext.current
-
     val showSetCountDialogForProduct = remember {
         mutableStateOf<Product?>(null)
+    }
+
+    val showClearAllConfirmDialog = remember {
+        mutableStateOf(false)
     }
 
     viewModel.collectCommand {
@@ -77,6 +78,7 @@ private fun CommandCollector(
             is CounterCommand.ShowSetCountDialog -> {
                 showSetCountDialogForProduct.value = it.product
             }
+            CounterCommand.ShowClearAllConfirmDialog -> showClearAllConfirmDialog.value = true
         }
     }
 
@@ -84,9 +86,15 @@ private fun CommandCollector(
         productState = showSetCountDialogForProduct,
         onEvent = onEvent
     )
+
+    ClearAllConfirmDialog(
+        showDialog = showClearAllConfirmDialog,
+        onEvent = onEvent
+    )
 }
 
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun CounterScreenContent(
     viewState: CounterViewState,
@@ -94,12 +102,39 @@ private fun CounterScreenContent(
 ) {
     Column(modifier = Modifier.padding(16.dp)) {
         if (viewState.products == null) {
+            //todo loading shimmer
             Text(text = "TODO")
         } else {
             LazyColumn(
                 modifier = Modifier.fillMaxSize(),
                 verticalArrangement = Arrangement.spacedBy(16.dp),
                 content = {
+                    stickyHeader {
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .background(MaterialTheme.colors.background),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Text(
+                                text = stringResource(id = R.string.your_tab),
+                                style = MaterialTheme.typography.h5,
+                                color = MaterialTheme.colors.onBackground
+                            )
+                            Spacer(modifier = Modifier.weight(1f))
+                            IconButton(
+                                modifier = Modifier.fillMaxHeight(),
+                                onClick = { onEvent(CounterEvent.OnClearAllClicked) }
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Default.Delete,
+                                    tint = MaterialTheme.colors.onSurface,
+                                    contentDescription = stringResource(id = R.string.action_clear_all)
+                                )
+                            }
+                        }
+                    }
+
                     items(viewState.products, key = { it.id }) {
                         CounterItem(product = it, onEvent = onEvent)
                     }
@@ -120,8 +155,6 @@ private fun CounterItem(
     CardThemed(
         modifier = Modifier
             .fillMaxWidth(),
-//        .height(92.dp),
-//        borderColor = MaterialTheme.colors.primary,
         borderColor = Color.White,
         onClick = {
             onEvent(CounterEvent.OnProductClicked(product.id))
@@ -152,7 +185,6 @@ private fun CounterItem(
                     .weight(1f)
             ) {
                 Column(
-//                    modifier = Modifier.padding(start = horizontalPadding)
                 ) {
                     Text(
                         text = product.name,
@@ -160,23 +192,22 @@ private fun CounterItem(
                     )
 
                     val format: NumberFormat = NumberFormat.getCurrencyInstance(Locale.getDefault()).apply {
+                        //todo - user-changable currency
                         currency = Currency.getInstance("CZK")
                         minimumFractionDigits = 0
                     }
 
                     val priceString: String = product.price?.let {
-//                        format.format(product.price)
                         format.format(0f)
                     } ?: ""
 
-                    // todo - nice layout when price is not set?
+                    // todo - nicer layout when price is not set?
                     Text(
                         text = priceString,
                         style = MaterialTheme.typography.subtitle2,
                         color = MaterialTheme.colors.onSurface.disabled
                     )
                 }
-
             }
 
             Text(
@@ -241,12 +272,11 @@ private fun SetCountDialog(productState: MutableState<Product?>, onEvent: OnEven
         content = {
             val keyboardController = LocalSoftwareKeyboardController.current
 
-            //todo prettier
+            //todo prettier layout - some padding?
             TextField(
                 modifier = Modifier
                     .padding(top = 24.dp)
-                    .focusRequester(focusRequester)
-                ,
+                    .focusRequester(focusRequester),
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number, imeAction = ImeAction.Done),
                 keyboardActions = KeyboardActions(
                     onDone = {
@@ -265,4 +295,14 @@ private fun SetCountDialog(productState: MutableState<Product?>, onEvent: OnEven
             }
         }
     )
+}
+
+@Composable
+fun ClearAllConfirmDialog(showDialog: MutableState<Boolean>, onEvent: OnEvent) {
+    ConfirmDialog(
+        showDialog = showDialog,
+        title = stringResource(id = R.string.action_clear_all),
+        text = stringResource(id = R.string.clear_all_confirm_message),
+        confirmString = stringResource(id = R.string.clear),
+        onConfirmClick = { onEvent(CounterEvent.OnClearAllConfirmed) })
 }

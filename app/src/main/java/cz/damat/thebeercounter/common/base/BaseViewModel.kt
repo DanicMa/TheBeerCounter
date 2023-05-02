@@ -94,6 +94,6 @@ abstract class BaseViewModel<STATE : ViewState, EVENT : ViewEvent, COMMAND : Vie
      */
     override fun onCleared() {
         super.onCleared()
-        viewModelSupervisorJob.cancel() //cnaceling the supervisor cancels all child scopes
+        viewModelSupervisorJob.cancel() //canceling the supervisor cancels all child scopes
     }
 }

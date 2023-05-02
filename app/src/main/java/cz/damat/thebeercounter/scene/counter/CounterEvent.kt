@@ -9,6 +9,8 @@ import cz.damat.thebeercounter.common.base.ViewEvent
 internal typealias OnEvent = (CounterEvent) -> Unit
 
 sealed class CounterEvent : ViewEvent {
+    object OnClearAllClicked : CounterEvent()
+    object OnClearAllConfirmed : CounterEvent()
     data class OnProductClicked(val id: Int) : CounterEvent()
     data class OnMenuItemClicked(val menuItem: MenuItem, val id: Int) : CounterEvent()
     data class OnCountSet(val id: Int, val count : Int) : CounterEvent()

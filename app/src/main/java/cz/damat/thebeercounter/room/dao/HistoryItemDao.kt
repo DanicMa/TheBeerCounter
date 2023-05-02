@@ -13,14 +13,8 @@ import kotlinx.coroutines.flow.first
  * Created by MD on 23.04.23.
  */
 @Dao
-interface ProductDao {
-
-    @Query("SELECT * FROM Product where id = :id")
-    suspend fun getProduct(id: Int): Product?
-
-    @Query("SELECT * FROM Product where shown = 1")
-    fun getShownProductsFlow(): Flow<List<Product>>
+interface HistoryItemDao {
 
     @Upsert
-    suspend fun saveProduct(product: Product)
+    suspend fun saveHistoryItem(historyItem: HistoryItem)
 }

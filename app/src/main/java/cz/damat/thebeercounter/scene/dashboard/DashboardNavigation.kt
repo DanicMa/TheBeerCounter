@@ -8,6 +8,10 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.List
+import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -87,7 +91,7 @@ fun BottomBar(navController: NavHostController) {
                 icon = {
                     Icon(
                         modifier = Modifier.padding(bottom = 2.dp),
-                        imageVector = ImageVector.vectorResource(id = navigationItem.iconRes),
+                        imageVector = navigationItem.getVectorResource(),
                         contentDescription = stringResource(id = navigationItem.titleRes)
                     )
                 },
@@ -106,9 +110,17 @@ fun BottomBar(navController: NavHostController) {
 private enum class DashboardNavigationItem(
     val route: String,
     @StringRes val titleRes: Int,
-    @DrawableRes val iconRes: Int
 ) {
-    Counter("counter", R.string.counter, R.drawable.ic_tally_24),
-    History("history", R.string.history, R.drawable.ic_list_24),
-    More("more", R.string.more, R.drawable.ic_more_horizontal_24),
+    Counter("counter", R.string.counter),
+    History("history", R.string.history),
+    More("more", R.string.more);
+
+    @Composable
+    fun getVectorResource(): ImageVector {
+        return when(this) {
+            Counter -> ImageVector.vectorResource(id = R.drawable.ic_tally_24)
+            History -> Icons.Default.List
+            More -> Icons.Default.MoreVert
+        }
+    }
 }

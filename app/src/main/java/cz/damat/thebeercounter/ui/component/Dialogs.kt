@@ -106,3 +106,30 @@ private fun DialogButton(text: String, textColor: Color, onClick: () -> Unit) {
         )
     }
 }
+
+@Composable
+fun ConfirmDialog(
+    showDialog: MutableState<Boolean>?,
+    title: String?,
+    text: String?,
+    content: @Composable (() -> Unit)? = null,
+    confirmString: String,
+    confirmTextColor: Color = MaterialTheme.colors.onSurface.medium,
+    onConfirmClick: (() -> Unit),
+    dismissString: String? = stringResource(id = R.string.cancel),
+    dismissTextColor: Color = MaterialTheme.colors.onSurface.medium,
+    onDismissClick: (() -> Unit)? = null,
+) {
+    DialogThemed(
+        showDialog = showDialog,
+        title = title,
+        text = text,
+        content = content,
+        confirmString = confirmString,
+        confirmTextColor = confirmTextColor,
+        onConfirmClick = onConfirmClick,
+        dismissString = dismissString,
+        dismissTextColor = dismissTextColor,
+        onDismissClick = onDismissClick
+    )
+}
