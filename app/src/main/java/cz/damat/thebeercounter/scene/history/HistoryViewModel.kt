@@ -6,6 +6,7 @@ import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
+import java.time.LocalDate
 
 
 /**
@@ -22,7 +23,8 @@ class HistoryViewModel(
                     DayToHistoryDTO(
                         day = it.key,
                         historyItems = it.value.sortedByDescending { historyProduct -> historyProduct.historyItem.date }.toImmutableList(),
-                        isExpanded = false
+                        isExpanded = it.key == LocalDate.now()
+                    // todo - correct updating of the isExpanded flag if there are any changes in the DB and flow fires multiple times OR replace flow with simple one-time query
                     )
                 }
                     .sortedByDescending { it.day }
