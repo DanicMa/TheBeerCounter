@@ -54,6 +54,7 @@ class CounterScreenViewModel(
     private fun onProductClick(id: Int) {
         ioScope.launch {
             productRepository.incrementProductCount(id)
+            sendCommand(CounterCommand.PerformHapticFeedback)
         }
     }
 

@@ -15,6 +15,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import cz.damat.thebeercounter.R
@@ -27,6 +28,7 @@ import cz.damat.thebeercounter.scene.counter.dialog.AddNewProductDialog
 import cz.damat.thebeercounter.scene.counter.dialog.SetCountDialog
 import cz.damat.thebeercounter.ui.component.*
 import cz.damat.thebeercounter.ui.theme.disabled
+import cz.damat.thebeercounter.ui.utils.vibrateStrong
 import org.koin.androidx.compose.get
 import java.text.NumberFormat
 import java.util.*
@@ -68,6 +70,8 @@ private fun CommandCollector(
         mutableStateOf(false)
     }
 
+    val view = LocalView.current
+
     viewModel.collectCommand {
         when (it) {
             is CounterCommand.ShowSetCountDialog -> {
@@ -75,6 +79,9 @@ private fun CommandCollector(
             }
             CounterCommand.ShowClearAllConfirmDialog -> showClearAllConfirmDialog.value = true
             CounterCommand.ShowAddNewDialog -> showAddNewDialog.value = true
+            CounterCommand.PerformHapticFeedback -> {
+                view.vibrateStrong()
+            }
         }
     }
 
