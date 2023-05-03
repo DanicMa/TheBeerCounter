@@ -41,7 +41,6 @@ fun DashboardNavigation() {
         bottomBar = {
             BottomBar(navController)
         }
-
     )
 }
 
@@ -63,7 +62,6 @@ private fun NavigationHost(navController: NavHostController, paddingValues: Padd
         }
     }
 }
-
 
 @Composable
 fun BottomBar(navController: NavHostController) {

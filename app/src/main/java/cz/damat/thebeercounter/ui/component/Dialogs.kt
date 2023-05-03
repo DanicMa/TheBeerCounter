@@ -1,20 +1,17 @@
 package cz.damat.thebeercounter.ui.component
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material.AlertDialog
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
-import androidx.compose.material.TextButton
+import androidx.compose.foundation.layout.*
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
 import cz.damat.thebeercounter.R
 import cz.damat.thebeercounter.ui.theme.medium
 
@@ -36,7 +33,6 @@ fun DialogThemed(
     dismissTextColor: Color = MaterialTheme.colors.onSurface.medium,
     onDismissClick: (() -> Unit)? = null,
 ) {
-
     if (showDialog?.value != false) {
         val textContent: (@Composable () -> Unit)? = if (text == null && content == null) {
             null
@@ -55,38 +51,53 @@ fun DialogThemed(
             }
         }
 
-        AlertDialog(
-            modifier = Modifier.clip(MaterialTheme.shapes.medium),
-            backgroundColor = MaterialTheme.colors.surface,
-            onDismissRequest = {
-                showDialog?.value = false
-                onDismissClick?.invoke()
-            },
-            confirmButton = {
-                DialogButton(
-                    text = confirmString,
-                    textColor = confirmTextColor
-                ) {
-                    showDialog?.value = false
-                    onConfirmClick.invoke()
-                }
-            },
-            dismissButton = dismissString?.let {
-                {
-                    DialogButton(
-                        text = it,
-                        textColor = dismissTextColor
+        Dialog(onDismissRequest = {
+            showDialog?.value = false
+            onDismissClick?.invoke()
+        }) {
+            Surface(shape = MaterialTheme.shapes.medium) {
+                Column {
+                    Column(modifier = Modifier.padding(horizontal = 24.dp, vertical = 8.dp)) {
+                        title?.let {
+                            Spacer(Modifier.size(8.dp))
+                            Text(text = title, style = MaterialTheme.typography.h6, color = MaterialTheme.colors.onSurface)
+                            Spacer(Modifier.size(16.dp))
+                        }
+
+                        textContent?.invoke()
+                    }
+
+                    Spacer(Modifier.size(4.dp))
+
+                    Row(
+                        Modifier
+                            .padding(8.dp)
+                            .fillMaxWidth(),
+                        Arrangement.spacedBy(8.dp, Alignment.End),
                     ) {
-                        showDialog?.value = false
-                        onDismissClick?.invoke()
+                        // dismiss button
+                        dismissString?.let {
+                            DialogButton(
+                                text = it,
+                                textColor = dismissTextColor
+                            ) {
+                                showDialog?.value = false
+                                onDismissClick?.invoke()
+                            }
+                        }
+
+                        // confirm button
+                        DialogButton(
+                            text = confirmString,
+                            textColor = confirmTextColor
+                        ) {
+                            showDialog?.value = false
+                            onConfirmClick.invoke()
+                        }
                     }
                 }
-            },
-            title = title?.let {
-                { Text(text = title, style = MaterialTheme.typography.h6, color = MaterialTheme.colors.onSurface) }
-            },
-            text = textContent
-        )
+            }
+        }
     }
 }
 

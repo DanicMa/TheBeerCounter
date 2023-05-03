@@ -22,7 +22,6 @@ fun CardThemed(
     onClick: (() -> Unit)?,
     content: @Composable () -> Unit = {}
 ) {
-    //todo
     val roundedCornerShape = MaterialTheme.shapes.large
 
     Card(

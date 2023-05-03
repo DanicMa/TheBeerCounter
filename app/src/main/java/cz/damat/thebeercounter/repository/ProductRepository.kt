@@ -18,7 +18,9 @@ import org.koin.core.component.KoinComponent
 
 class ProductRepository(private val db: AppDatabase, private val productDao: ProductDao, private val historyItemDao: HistoryItemDao) : KoinComponent {
 
-    fun getShownProductsFlow() = productDao.getShownProductsFlow()
+    fun getShownProductsFlow() = productDao.getProductsFlow(true)
+
+    fun getNotShownProductsFlow() = productDao.getProductsFlow(false)
 
     suspend fun saveProduct(product: Product) = productDao.saveProduct(product)
 
@@ -88,25 +90,26 @@ class ProductRepository(private val db: AppDatabase, private val productDao: Pro
     }
 
     suspend fun addInitialProduct(name: String) {
-        for (i : Int in 1 .. 20) {
-            val initialProduct = Product(
-                id = i,
-                name = name,
-                price = null,
-                count = 0,
-                shown = true,
-                suggested = true
-            )
-            saveProduct(initialProduct)
-        }
-//        val initialProduct = Product(
-//            id = InitialItemId,
-//            name = name,
-//            price = null,
-//            count = 0,
-//            shown = true,
-//            suggested = true
-//        )
-//        saveProduct(initialProduct)
+        // commented out initialization of 20 items fro lazyList testing purposes
+//        for (i : Int in 1 .. 20) {
+//            val initialProduct = Product(
+//                id = i,
+//                name = name,
+//                price = null,
+//                count = 0,
+//                shown = true,
+//                suggested = true
+//            )
+//            saveProduct(initialProduct)
+//        }
+        val initialProduct = Product(
+            id = InitialItemId,
+            name = name,
+            price = null,
+            count = 0,
+            shown = true,
+            suggested = true
+        )
+        saveProduct(initialProduct)
     }
 }

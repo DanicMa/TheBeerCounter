@@ -6,6 +6,7 @@ import cz.damat.thebeercounter.R
 import cz.damat.thebeercounter.common.base.BaseViewModel
 import cz.damat.thebeercounter.repository.ProductRepository
 import cz.damat.thebeercounter.room.model.HistoryItemType
+import cz.damat.thebeercounter.room.model.Product
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.launchIn
@@ -45,6 +46,8 @@ class CounterScreenViewModel(
             is CounterEvent.OnCountSet -> onCountSet(event.id, event.count)
             CounterEvent.OnClearAllClicked -> onClearAllClicked()
             CounterEvent.OnClearAllConfirmed -> onClearAllConfirmed()
+            CounterEvent.OnAddNewClicked -> onAddNewClicked()
+            is CounterEvent.OnNewProductAdded -> onNewProductAdded(event.name)
         }
     }
 
@@ -90,5 +93,26 @@ class CounterScreenViewModel(
        ioScope.launch {
               productRepository.clearAllAndAddInitialProduct(resources.getString(InitialProductName))
        }
+    }
+
+    private fun onAddNewClicked() {
+        ioScope.launch {
+            productRepository.getShownProductsFlow()
+            sendCommand(CounterCommand.ShowAddNewDialog)
+        }
+    }
+
+    private fun onNewProductAdded(name: String) {
+        ioScope.launch {
+            val product = Product(
+                name = name,
+                count = 0,
+                shown = true,
+                price = null,
+            )
+            productRepository.saveProduct(product)
+            // two separate calls so that incrementing and historyItem creation is ran in a transaction
+            productRepository.incrementProductCount(product.id)
+        }
     }
 }

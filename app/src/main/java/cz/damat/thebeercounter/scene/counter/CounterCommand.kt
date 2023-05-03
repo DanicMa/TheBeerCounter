@@ -10,5 +10,6 @@ import cz.damat.thebeercounter.room.model.Product
 sealed class CounterCommand : ViewCommand {
 
     object ShowClearAllConfirmDialog : CounterCommand()
+    object ShowAddNewDialog : CounterCommand()
     data class ShowSetCountDialog(val product: Product) : CounterCommand()
 }
