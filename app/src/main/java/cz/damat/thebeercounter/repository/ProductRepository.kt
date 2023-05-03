@@ -4,10 +4,10 @@ import androidx.room.withTransaction
 import cz.damat.thebeercounter.room.AppDatabase
 import cz.damat.thebeercounter.room.dao.HistoryItemDao
 import cz.damat.thebeercounter.room.dao.ProductDao
-import cz.damat.thebeercounter.room.model.HistoryItem
-import cz.damat.thebeercounter.room.model.HistoryItemType
-import cz.damat.thebeercounter.room.model.InitialItemId
-import cz.damat.thebeercounter.room.model.Product
+import cz.damat.thebeercounter.room.entity.HistoryItem
+import cz.damat.thebeercounter.room.entity.HistoryItemType
+import cz.damat.thebeercounter.room.entity.InitialItemId
+import cz.damat.thebeercounter.room.entity.Product
 import kotlinx.coroutines.flow.first
 import org.koin.core.component.KoinComponent
 

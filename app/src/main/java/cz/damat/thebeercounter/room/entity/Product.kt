@@ -1,4 +1,4 @@
-package cz.damat.thebeercounter.room.model
+package cz.damat.thebeercounter.room.entity
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

@@ -1,7 +1,7 @@
 package cz.damat.thebeercounter.scene.counter
 
 import cz.damat.thebeercounter.common.base.ViewState
-import cz.damat.thebeercounter.room.model.Product
+import cz.damat.thebeercounter.room.entity.Product
 import kotlinx.collections.immutable.ImmutableList
 
 

@@ -1,7 +1,7 @@
 package cz.damat.thebeercounter.room.dao
 
 import androidx.room.*
-import cz.damat.thebeercounter.room.model.Product
+import cz.damat.thebeercounter.room.entity.Product
 import kotlinx.coroutines.flow.Flow
 
 

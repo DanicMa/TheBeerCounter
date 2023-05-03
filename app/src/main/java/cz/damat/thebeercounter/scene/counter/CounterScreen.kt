@@ -24,7 +24,7 @@ import cz.damat.thebeercounter.common.utils.Previews
 import cz.damat.thebeercounter.common.utils.collectCommand
 import cz.damat.thebeercounter.common.utils.collectStateWithLifecycle
 import cz.damat.thebeercounter.common.utils.getOnEvent
-import cz.damat.thebeercounter.room.model.Product
+import cz.damat.thebeercounter.room.entity.Product
 import cz.damat.thebeercounter.scene.counter.dialog.AddNewProductDialog
 import cz.damat.thebeercounter.scene.counter.dialog.SetCountDialog
 import cz.damat.thebeercounter.ui.component.*
@@ -260,6 +260,7 @@ enum class MenuItem(@StringRes val titleRes: Int) {
     Reset(R.string.action_reset),
     Hide(R.string.action_delete),
     SetCount(R.string.action_set_count),
+    //todo - modify product item and dialog
 }
 
 @Composable

@@ -1,4 +1,4 @@
-package cz.damat.thebeercounter.room.model
+package cz.damat.thebeercounter.room.entity
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
@@ -10,21 +10,21 @@ import java.util.*
  * Created by MD on 28.04.23.
  */
 
-private const val ProductId = "productId"
+const val ProductIdColumn = "productId"
 
 @Entity(
     foreignKeys = [ForeignKey(
         entity = Product::class,
         parentColumns = arrayOf(Id),
-        childColumns = arrayOf(ProductId),
+        childColumns = arrayOf(ProductIdColumn),
         onDelete = ForeignKey.CASCADE
     )]
 )
 
 data class HistoryItem(
     @PrimaryKey(autoGenerate = true)
-    val id: Int = 0,
-    @ColumnInfo(name = ProductId, index = true)
+    val historyItemId: Int = 0,
+    @ColumnInfo(name = ProductIdColumn, index = true)
     val productId: Int,
     val oldCount: Int,
     val newCount: Int,

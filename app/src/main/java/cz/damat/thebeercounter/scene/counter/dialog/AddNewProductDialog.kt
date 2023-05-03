@@ -23,6 +23,7 @@ fun AddNewProductDialog(showDialog: MutableState<Boolean>, onNewProductCreated: 
     if (!showDialog.value) return
 
     //todo - selection of existing products (autocomplete?) so that we don't have duplicates and history of products is consistent and usable for more advanced statistics in the future
+    //todo - way of setting price of the product
     val textFieldValue = remember {
         mutableStateOf(TextFieldValue())
     }
@@ -38,14 +39,13 @@ fun AddNewProductDialog(showDialog: MutableState<Boolean>, onNewProductCreated: 
         if (name.isEmpty()) {
             shake.value = true
         } else {
-            onNewProductCreated(name)
+            onNewProductCreated(name.trim())
             showDialog.value = false
         }
     }
 
     DialogThemed(
         showDialog = null,
-        text = null,
         confirmString = stringResource(id = R.string.action_add),
         dismissString = stringResource(id = R.string.cancel),
         onConfirmClick = onConfirmClick,

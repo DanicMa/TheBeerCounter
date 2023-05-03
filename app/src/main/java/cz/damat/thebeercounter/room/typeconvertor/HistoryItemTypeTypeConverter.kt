@@ -1,7 +1,7 @@
 package cz.damat.thebeercounter.room.typeconvertor
 
 import androidx.room.TypeConverter
-import cz.damat.thebeercounter.room.model.HistoryItemType
+import cz.damat.thebeercounter.room.entity.HistoryItemType
 
 
 /**

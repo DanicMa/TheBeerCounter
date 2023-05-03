@@ -1,7 +1,7 @@
 package cz.damat.thebeercounter.scene.counter
 
 import cz.damat.thebeercounter.common.base.ViewCommand
-import cz.damat.thebeercounter.room.model.Product
+import cz.damat.thebeercounter.room.entity.Product
 
 
 /**

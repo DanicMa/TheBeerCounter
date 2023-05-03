@@ -5,8 +5,8 @@ import androidx.annotation.StringRes
 import cz.damat.thebeercounter.R
 import cz.damat.thebeercounter.common.base.BaseViewModel
 import cz.damat.thebeercounter.repository.ProductRepository
-import cz.damat.thebeercounter.room.model.HistoryItemType
-import cz.damat.thebeercounter.room.model.Product
+import cz.damat.thebeercounter.room.entity.HistoryItemType
+import cz.damat.thebeercounter.room.entity.Product
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.launchIn

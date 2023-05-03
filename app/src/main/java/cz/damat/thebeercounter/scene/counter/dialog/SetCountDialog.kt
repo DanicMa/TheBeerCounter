@@ -1,12 +1,10 @@
 package cz.damat.thebeercounter.scene.counter.dialog
 
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
-import androidx.compose.material.TextField
 import androidx.compose.runtime.*
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
@@ -18,9 +16,8 @@ import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
-import androidx.compose.ui.unit.dp
 import cz.damat.thebeercounter.R
-import cz.damat.thebeercounter.room.model.Product
+import cz.damat.thebeercounter.room.entity.Product
 import cz.damat.thebeercounter.scene.counter.CounterEvent
 import cz.damat.thebeercounter.scene.counter.OnEvent
 import cz.damat.thebeercounter.ui.component.DialogThemed
@@ -46,7 +43,6 @@ fun SetCountDialog(productState: MutableState<Product?>, onEvent: OnEvent) {
 
     DialogThemed(
         showDialog = null,
-        text = null,
         confirmString = stringResource(id = R.string.action_set),
         dismissString = stringResource(id = R.string.cancel),
         onConfirmClick = onConfirmClick,

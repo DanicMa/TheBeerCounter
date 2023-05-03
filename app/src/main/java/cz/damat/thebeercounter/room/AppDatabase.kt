@@ -5,8 +5,8 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import cz.damat.thebeercounter.room.dao.HistoryItemDao
 import cz.damat.thebeercounter.room.dao.ProductDao
-import cz.damat.thebeercounter.room.model.HistoryItem
-import cz.damat.thebeercounter.room.model.Product
+import cz.damat.thebeercounter.room.entity.HistoryItem
+import cz.damat.thebeercounter.room.entity.Product
 import cz.damat.thebeercounter.room.typeconvertor.BigDecimalTypeConverter
 import cz.damat.thebeercounter.room.typeconvertor.DateTypeConverter
 import cz.damat.thebeercounter.room.typeconvertor.HistoryItemTypeTypeConverter

@@ -24,6 +24,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import cz.damat.thebeercounter.R
 import cz.damat.thebeercounter.scene.counter.CounterScreen
+import cz.damat.thebeercounter.scene.history.HistoryScreen
 import cz.damat.thebeercounter.ui.theme.medium
 
 /**
@@ -55,7 +56,7 @@ private fun NavigationHost(navController: NavHostController, paddingValues: Padd
             composable(navigationItem.route) {
                 when (navigationItem) {
                     DashboardNavigationItem.Counter -> CounterScreen()
-                    DashboardNavigationItem.History -> Text(text = navigationItem.route)
+                    DashboardNavigationItem.History -> HistoryScreen()
                     DashboardNavigationItem.More -> Text(text = navigationItem.route)
                 }
             }
