@@ -167,7 +167,7 @@ private fun HistoryProductItem(
     item: HistoryProduct,
     onEvent: OnEvent
 ) {
-    //todo - dropdown for more deleting OR swipe to delete?
+    //todo - dropdown for deleting OR swipe to delete?
 
     val countChange = item.historyItem.newCount - item.historyItem.oldCount
 

@@ -1,8 +1,6 @@
 package cz.damat.thebeercounter.room.dao
 
-import androidx.room.Dao
-import androidx.room.Query
-import androidx.room.Upsert
+import androidx.room.*
 import cz.damat.thebeercounter.room.entity.HistoryItem
 import cz.damat.thebeercounter.room.entity.Product
 import kotlinx.coroutines.flow.Flow
@@ -14,8 +12,8 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface HistoryItemDao {
 
-    @Upsert
-    suspend fun saveHistoryItem(historyItem: HistoryItem)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun saveHistoryItem(historyItem: HistoryItem) : Long
 
     @Query("SELECT * FROM Product JOIN HistoryItem ON HistoryItem.productId = Product.id")
     fun getHistoryItemsMap(): Flow<Map<Product, List<HistoryItem>>>

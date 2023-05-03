@@ -110,9 +110,7 @@ class CounterScreenViewModel(
                 shown = true,
                 price = null,
             )
-            productRepository.saveProduct(product)
-            // two separate calls so that incrementing and historyItem creation is ran in a transaction
-            productRepository.incrementProductCount(product.id)
+            productRepository.saveProductAndIncrementCount(product)
         }
     }
 }

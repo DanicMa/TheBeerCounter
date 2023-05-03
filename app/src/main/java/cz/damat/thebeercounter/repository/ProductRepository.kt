@@ -20,15 +20,21 @@ class ProductRepository(private val db: AppDatabase, private val productDao: Pro
 
     fun getShownProductsFlow() = productDao.getProductsFlow(true)
 
+    //todo - use for allowing the user to delete currently not shown products
     fun getNotShownProductsFlow() = productDao.getProductsFlow(false)
 
-    suspend fun saveProduct(product: Product) = productDao.saveProduct(product)
+    suspend fun saveProductAndIncrementCount(product: Product) {
+        db.withTransaction {
+            val newProductId = productDao.saveProduct(product)
+            incrementProductCount(newProductId.toInt())
+        }
+    }
 
     suspend fun incrementProductCount(id: Int) {
         db.withTransaction {
             productDao.getProduct(id)?.let { product ->
                 val count = product.count
-                saveProduct(product.copy(count = count + 1))
+                productDao.saveProduct(product.copy(count = count + 1))
                 historyItemDao.saveHistoryItem(
                     HistoryItem(
                         productId = id,
@@ -45,7 +51,7 @@ class ProductRepository(private val db: AppDatabase, private val productDao: Pro
         db.withTransaction {
             productDao.getProduct(id)?.let { product ->
                 val oldCount = product.count
-                saveProduct(product.copy(count = count))
+                productDao.saveProduct(product.copy(count = count))
                 historyItemDao.saveHistoryItem(
                     HistoryItem(
                         productId = id,
@@ -62,7 +68,7 @@ class ProductRepository(private val db: AppDatabase, private val productDao: Pro
         db.withTransaction {
             productDao.getProduct(id)?.let { product ->
                 val oldCount = product.count
-                saveProduct(product.copy(shown = false, count = 0))
+                productDao.saveProduct(product.copy(shown = false, count = 0))
                 historyItemDao.saveHistoryItem(
                     HistoryItem(
                         productId = id,
@@ -90,18 +96,6 @@ class ProductRepository(private val db: AppDatabase, private val productDao: Pro
     }
 
     suspend fun addInitialProduct(name: String) {
-        // commented out initialization of 20 items fro lazyList testing purposes
-//        for (i : Int in 1 .. 20) {
-//            val initialProduct = Product(
-//                id = i,
-//                name = name,
-//                price = null,
-//                count = 0,
-//                shown = true,
-//                suggested = true
-//            )
-//            saveProduct(initialProduct)
-//        }
         val initialProduct = Product(
             id = InitialItemId,
             name = name,
@@ -110,6 +104,6 @@ class ProductRepository(private val db: AppDatabase, private val productDao: Pro
             shown = true,
             suggested = true
         )
-        saveProduct(initialProduct)
+        productDao.saveProduct(initialProduct)
     }
 }
