@@ -1,36 +1,28 @@
 package cz.damat.thebeercounter.scene.history
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import cz.damat.thebeercounter.R
 import cz.damat.thebeercounter.common.utils.*
 import cz.damat.thebeercounter.room.dto.HistoryProduct
-import cz.damat.thebeercounter.ui.component.CardThemed
-import cz.damat.thebeercounter.ui.theme.DarkGreen
 import cz.damat.thebeercounter.ui.theme.disabled
+import cz.damat.thebeercounter.R
+import cz.damat.thebeercounter.room.entity.HistoryItemType
 import org.koin.androidx.compose.get
-import java.text.NumberFormat
-import java.util.*
 
 
 /**
@@ -71,17 +63,99 @@ private fun HistoryScreenContent(
     viewState: HistoryViewState,
     onEvent: OnEvent
 ) {
-    Column(modifier = Modifier.padding(16.dp)) {
+    // todo - add filter option (e.g. only adding)
+
+    Column {
         if (viewState.items == null) {
             // todo - loading shimmer
             Text("Loading...")
         } else {
-            LazyColumn(
-                modifier = Modifier.fillMaxSize(),
-                verticalArrangement = Arrangement.spacedBy(8.dp)
+            if (viewState.items.isEmpty()) {
+                //todo - empty placeholder
+            } else {
+                LazyColumn(
+                    modifier = Modifier.fillMaxSize(),
+                ) {
+
+                    itemsIndexed(items = viewState.items, key = { index, item -> item.day }) { index, item ->
+                        HistoryProductDay(item = item, onEvent = onEvent)
+
+                        if (index < viewState.items.lastIndex) {
+                            // divider for all but last item
+                            Divider(
+                                modifier = Modifier
+                                    .fillMaxWidth(),
+                                thickness = 1.dp,
+                                color = Color.LightGray
+                            )
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun HistoryProductDay(
+    item: DayToHistoryDTO,
+    onEvent: OnEvent
+) {
+    val horizontalPadding = 16.dp
+
+    Column(modifier = Modifier.fillMaxWidth()) {
+
+        Row(modifier = Modifier
+            .fillMaxWidth()
+            .clickable {
+                onEvent(HistoryEvent.OnHistoryItemClick(item))
+            }
+        ) {
+            Box(
+                modifier = Modifier
+                    .padding(
+                        vertical = 8.dp,
+                        horizontal = horizontalPadding
+                    )
+                    .fillMaxWidth()
             ) {
-                items(items = viewState.items, key = { it.historyItem.id }) { historyProduct ->
-                    HistoryProductItem(item = historyProduct, onEvent = onEvent)
+                Text(
+                    modifier = Modifier.align(Alignment.CenterStart),
+                    text = item.day.formatToDayString(),
+                    style = MaterialTheme.typography.h6,
+                    color = MaterialTheme.colors.onSurface,
+                )
+
+                Box(modifier = Modifier.align(Alignment.CenterEnd)) {
+                    IconButton(onClick = { onEvent(HistoryEvent.OnHistoryItemClick(item)) }) {
+                        Icon(
+                            modifier = Modifier
+                                .graphicsLayer {
+                                    if (item.isExpanded) rotationZ = 180f
+                                },
+                            imageVector = ImageVector.vectorResource(id = R.drawable.ic_expand_more_24),
+                            contentDescription = stringResource(id = if (item.isExpanded) R.string.collapse else R.string.expand),
+                        )
+                    }
+                }
+            }
+        }
+
+        AnimatedVisibility(
+            visible = item.isExpanded,
+        ) {
+            Column(
+                modifier = Modifier.padding(
+                    PaddingValues(
+                        start = horizontalPadding * 3,
+                        top = 0.dp,
+                        end = horizontalPadding,
+                        bottom = 8.dp
+                    )
+                )
+            ) {
+                item.historyItems.forEach { historyItem ->
+                    HistoryProductItem(item = historyItem, onEvent = onEvent)
                 }
             }
         }
@@ -93,62 +167,54 @@ private fun HistoryProductItem(
     item: HistoryProduct,
     onEvent: OnEvent
 ) {
-    val dropdownShown = remember {
-        mutableStateOf(false)
-    }
+    //todo - dropdown for more deleting OR swipe to delete?
 
     val countChange = item.historyItem.newCount - item.historyItem.oldCount
 
-    CardThemed(
+    Row(
         modifier = Modifier
-            .fillMaxWidth(),
-//        borderColor = Color.White,
-        onClick = null
+            .fillMaxSize()
+            .padding(vertical = 4.dp, horizontal = 8.dp),
+        verticalAlignment = Alignment.CenterVertically
     ) {
-
-        Row(
+        Column(
             modifier = Modifier
-                .fillMaxSize()
-                .padding(vertical = 4.dp, horizontal = 8.dp),
-            verticalAlignment = Alignment.CenterVertically
+                .fillMaxHeight()
+                .weight(1f)
         ) {
-            Column(
-                modifier = Modifier
-                    .fillMaxHeight()
-                    .weight(1f)
-            ) {
-                Column {
-                    Text(
-                        text = item.product.name,
-                        style = MaterialTheme.typography.h5
-                    )
+            Column {
+                Text(
+                    text = item.product.name,
+                    style = MaterialTheme.typography.h5
+                )
 
-                    val timeString: String = item.historyItem.date.formatForTimeOrDayAndTime(LocalContext.current)
-                    Text(
-                        text = timeString,
-                        style = MaterialTheme.typography.subtitle2,
-                        color = MaterialTheme.colors.onSurface.disabled
-                    )
-                }
+                val timeString: String = item.historyItem.date.formatToTimeString(LocalContext.current)
+                Text(
+                    text = timeString,
+                    style = MaterialTheme.typography.subtitle2,
+                    color = MaterialTheme.colors.onSurface.disabled
+                )
             }
+        }
 
-            Column(
-                modifier = Modifier
-                    .fillMaxHeight()
-                    .width(IntrinsicSize.Max)
-            ) {
-                Column {
+        Column(
+            modifier = Modifier
+                .fillMaxHeight()
+                .width(IntrinsicSize.Max)
+        ) {
+            Column {
+                Text(
+                    modifier = Modifier.fillMaxWidth(),
+                    text = countChange.toStringSigned(),
+                    textAlign = TextAlign.End,
+                    style = MaterialTheme.typography.h5,
+                    color = if (countChange < 0) Color.Red else MaterialTheme.colors.onSurface
+                )
+
+                if (item.historyItem.type != HistoryItemType.ADD) {
                     Text(
                         modifier = Modifier.fillMaxWidth(),
-                        text = countChange.toStringSigned(),
-                        textAlign = TextAlign.End,
-                        style = MaterialTheme.typography.h5,
-                        color = if (countChange > 0) DarkGreen else Color.Red
-                    )
-
-                    Text(
-                        modifier = Modifier.fillMaxWidth(),
-                        text = "${item.historyItem.oldCount} -> ${item.historyItem.newCount}",
+                        text = "${item.historyItem.oldCount} ➔ ${item.historyItem.newCount}",
                         textAlign = TextAlign.End,
                         style = MaterialTheme.typography.subtitle2,
                         color = MaterialTheme.colors.onSurface.disabled

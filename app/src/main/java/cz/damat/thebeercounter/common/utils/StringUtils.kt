@@ -2,28 +2,27 @@ package cz.damat.thebeercounter.common.utils
 
 import android.content.Context
 import android.text.format.DateFormat
-import android.text.format.DateUtils
 import java.text.DecimalFormat
 import java.text.NumberFormat
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle
 import java.util.*
 
 
 /**
  * Created by MD on 03.05.23.
  */
-fun Date.formatForTimeOrDayAndTime(context : Context) : String {
-    val isToday = DateUtils.isToday(this.time)
-
-    val dateFormat = if (isToday) {
-        DateFormat.getTimeFormat(context)
-    } else {
-        DateFormat.getMediumDateFormat(context)
-    }
-
-    return dateFormat.format(this)
+fun Date.formatToTimeString(context: Context): String {
+    return DateFormat.getTimeFormat(context).format(this)
 }
 
-fun Int.toStringSigned() : String {
+fun LocalDate.formatToDayString(): String {
+    // todo - format without year if current year
+    return format(DateTimeFormatter.ofLocalizedDate(FormatStyle.LONG).withLocale(Locale.getDefault()))
+}
+
+fun Int.toStringSigned(): String {
     val plusMinusNF: NumberFormat = DecimalFormat("+#;-#")
     return plusMinusNF.format(this)
 }

@@ -6,6 +6,9 @@ import cz.damat.thebeercounter.room.dao.ProductDao
 import cz.damat.thebeercounter.room.dto.HistoryProduct
 import kotlinx.coroutines.flow.map
 import org.koin.core.component.KoinComponent
+import java.time.Instant
+import java.time.LocalDate
+import java.time.ZoneId
 
 
 /**
@@ -14,10 +17,14 @@ import org.koin.core.component.KoinComponent
 class HistoryRepository(private val db: AppDatabase, private val historyItemDao: HistoryItemDao) : KoinComponent {
 
     fun getHistoryItems() = historyItemDao.getHistoryItemsMap().map {
-        return@map it.flatMap { (product, historyItems) ->
+        val flatList = it.flatMap { (product, historyItems) ->
             historyItems.map { historyItem ->
                 HistoryProduct(historyItem, product)
             }
+        }
+
+        return@map flatList.groupBy { historyProduct ->
+            historyProduct.historyItem.date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate()
         }
     }
 }

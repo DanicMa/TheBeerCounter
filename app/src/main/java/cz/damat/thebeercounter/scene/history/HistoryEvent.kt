@@ -8,4 +8,5 @@ import cz.damat.thebeercounter.common.base.ViewEvent
 internal typealias OnEvent = (HistoryEvent) -> Unit
 
 sealed class HistoryEvent : ViewEvent {
+    data class OnHistoryItemClick(val dayToHistoryDTO: DayToHistoryDTO) : HistoryEvent()
 }
