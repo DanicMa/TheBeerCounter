@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface HistoryItemDao {
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Upsert
     suspend fun saveHistoryItem(historyItem: HistoryItem) : Long
 
     @Query("SELECT * FROM Product JOIN HistoryItem ON HistoryItem.productId = Product.id")

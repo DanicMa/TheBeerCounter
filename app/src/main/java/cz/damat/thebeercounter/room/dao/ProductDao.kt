@@ -17,6 +17,6 @@ interface ProductDao {
     @Query("SELECT * FROM Product where shown = :shown")
     fun getProductsFlow(shown : Boolean): Flow<List<Product>>
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Upsert
     suspend fun saveProduct(product: Product) : Long
 }
