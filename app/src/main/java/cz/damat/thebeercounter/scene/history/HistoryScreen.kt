@@ -17,11 +17,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import cz.damat.thebeercounter.R
 import cz.damat.thebeercounter.common.utils.*
 import cz.damat.thebeercounter.room.dto.HistoryProduct
-import cz.damat.thebeercounter.ui.theme.disabled
-import cz.damat.thebeercounter.R
 import cz.damat.thebeercounter.room.entity.HistoryItemType
+import cz.damat.thebeercounter.ui.theme.disabled
 import org.koin.androidx.compose.get
 
 

@@ -6,8 +6,6 @@ import androidx.compose.ui.graphics.Color
 
 val Gold = Color(0xFFFFD700)
 val GoldDark = Color(0xFFD1B000)
-val DisabledGrey = Color(0x66333333)
-val DarkGreen = Color(0xff027148)
 
 val Color.medium: Color
     @Composable

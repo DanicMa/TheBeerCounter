@@ -2,12 +2,9 @@ package cz.damat.thebeercounter.repository
 
 import cz.damat.thebeercounter.room.AppDatabase
 import cz.damat.thebeercounter.room.dao.HistoryItemDao
-import cz.damat.thebeercounter.room.dao.ProductDao
 import cz.damat.thebeercounter.room.dto.HistoryProduct
 import kotlinx.coroutines.flow.map
 import org.koin.core.component.KoinComponent
-import java.time.Instant
-import java.time.LocalDate
 import java.time.ZoneId
 
 

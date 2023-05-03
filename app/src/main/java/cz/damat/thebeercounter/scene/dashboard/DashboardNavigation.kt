@@ -58,7 +58,7 @@ private fun NavigationHost(navController: NavHostController, paddingValues: Padd
                     DashboardNavigationItem.Counter -> CounterScreen()
                     DashboardNavigationItem.History -> HistoryScreen()
                     //todo - finish the "more" screen
-                    DashboardNavigationItem.More -> Text(text = "Not yet implemented. Some setting will be here, maybe some statistics and other stuff?")
+                    DashboardNavigationItem.More -> Text(text = "Not yet implemented. Some settings will be here, maybe some statistics and other stuff?")
                 }
             }
         }
