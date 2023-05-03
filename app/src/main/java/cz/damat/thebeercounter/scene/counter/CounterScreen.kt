@@ -10,6 +10,7 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -194,8 +195,7 @@ private fun CounterItem(
 
             IconButton(onClick = { dropdownShown.value = true }) {
                 Icon(
-                    modifier = Modifier.rotate(90f),
-                    imageVector = ImageVector.vectorResource(id = R.drawable.ic_more_horizontal_24),
+                    imageVector = Icons.Default.MoreVert,
                     contentDescription = stringResource(id = R.string.more)
                 )
             }
@@ -239,7 +239,6 @@ private fun CounterItem(
             )
         }
     }
-
 }
 
 @Composable

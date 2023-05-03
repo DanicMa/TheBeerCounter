@@ -23,7 +23,7 @@ const val ProductIdColumn = "productId"
 
 data class HistoryItem(
     @PrimaryKey(autoGenerate = true)
-    val historyItemId: Int = 0,
+    val id: Int = 0,
     @ColumnInfo(name = ProductIdColumn, index = true)
     val productId: Int,
     val oldCount: Int,
