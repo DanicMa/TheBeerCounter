@@ -25,7 +25,7 @@ class ProductRepository(private val db: AppDatabase, private val productDao: Pro
 
     suspend fun saveProductAndIncrementCount(product: Product) {
         db.withTransaction {
-            val newProductId = productDao.saveProduct(product)
+            val newProductId = productDao.upsert(product)
             incrementProductCount(newProductId.toInt())
         }
     }
@@ -34,8 +34,8 @@ class ProductRepository(private val db: AppDatabase, private val productDao: Pro
         db.withTransaction {
             productDao.getProduct(id)?.let { product ->
                 val count = product.count
-                productDao.saveProduct(product.copy(count = count + 1))
-                historyItemDao.saveHistoryItem(
+                productDao.upsert(product.copy(count = count + 1))
+                historyItemDao.upsert(
                     HistoryItem(
                         productId = id,
                         oldCount = count,
@@ -51,8 +51,8 @@ class ProductRepository(private val db: AppDatabase, private val productDao: Pro
         db.withTransaction {
             productDao.getProduct(id)?.let { product ->
                 val oldCount = product.count
-                productDao.saveProduct(product.copy(count = count))
-                historyItemDao.saveHistoryItem(
+                productDao.upsert(product.copy(count = count))
+                historyItemDao.upsert(
                     HistoryItem(
                         productId = id,
                         oldCount = oldCount,
@@ -68,8 +68,8 @@ class ProductRepository(private val db: AppDatabase, private val productDao: Pro
         db.withTransaction {
             productDao.getProduct(id)?.let { product ->
                 val oldCount = product.count
-                productDao.saveProduct(product.copy(shown = false, count = 0))
-                historyItemDao.saveHistoryItem(
+                productDao.upsert(product.copy(shown = false, count = 0))
+                historyItemDao.upsert(
                     HistoryItem(
                         productId = id,
                         oldCount = oldCount,
@@ -104,6 +104,6 @@ class ProductRepository(private val db: AppDatabase, private val productDao: Pro
             shown = true,
             suggested = true
         )
-        productDao.saveProduct(initialProduct)
+        productDao.upsert(initialProduct)
     }
 }
