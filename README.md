@@ -1,5 +1,5 @@
 # TheBeerCounter app
-## Showcase app for Android development allowing users to keep track of their bar tab.
+## Showcase app for Android development allowing users to keep track of their bar tab
 This is an Android app in which the users can count the bar consumption and avoid arguments about who should pay what at the end of the night. The app is also used as a showcase for Android development principles.
 
 ## Features
@@ -10,9 +10,15 @@ This is an Android app in which the users can count the bar consumption and avoi
 + Modifying the count of items manually
 + Clearing the tab
 
+<img src="https://github.com/DanicMa/TheBeerCounter/blob/screenshots/screenshots/Screenshot_20231010_134427.png?raw=true" width=300px/>
+<img src="https://github.com/DanicMa/TheBeerCounter/blob/screenshots/screenshots/Screenshot_20231010_134912.png?raw=true" width=300px/>
+<img src="https://github.com/DanicMa/TheBeerCounter/blob/screenshots/screenshots/Screenshot_20231010_134926.png?raw=true" width=300px/>
+
 ### History
 + Expandable list of days
 + History of items adding/removing with timestamps
+
+<img src="https://github.com/DanicMa/TheBeerCounter/blob/screenshots/screenshots/Screenshot_20231010_134849.png?raw=true" width=300px/>
 
 ### Future improvements
 + Showing a graph of consumption over time
