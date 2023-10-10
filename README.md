@@ -10,9 +10,7 @@ This is an Android app in which the users can count the bar consumption and avoi
 + Modifying the count of items manually
 + Clearing the tab
 
-<img src="https://github.com/DanicMa/TheBeerCounter/blob/screenshots/screenshots/Screenshot_20231010_134427.png?raw=true" width=300px/>
-<img src="https://github.com/DanicMa/TheBeerCounter/blob/screenshots/screenshots/Screenshot_20231010_134912.png?raw=true" width=300px/>
-<img src="https://github.com/DanicMa/TheBeerCounter/blob/screenshots/screenshots/Screenshot_20231010_134926.png?raw=true" width=300px/>
+<img src="https://github.com/DanicMa/TheBeerCounter/blob/screenshots/screenshots/Screenshot_20231010_134427.png?raw=true" width=300px/> <img src="https://github.com/DanicMa/TheBeerCounter/blob/screenshots/screenshots/Screenshot_20231010_134912.png?raw=true" width=300px/> <img src="https://github.com/DanicMa/TheBeerCounter/blob/screenshots/screenshots/Screenshot_20231010_134926.png?raw=true" width=300px/>
 
 ### History
 + Expandable list of days
