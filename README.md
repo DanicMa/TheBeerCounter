@@ -1,12 +1,12 @@
 # TheBeerCounter app
 ## Showcase app for Android development allowing users to keep track of their bar tab
-This is an Android app in which the users can count the bar consumption and avoid arguments about who should pay what at the end of the night. The app is also used as a showcase for Android development principles.
+This is an Android app in which the users can count their bar consumption and avoid arguments about who should pay what at the end of the night. The app is also used as a showcase for Android development principles.
 
 ## Features
 ### Current tab
 + List of current items and their counts
 + Adding new items
-+ Adding count of an item
++ Incrementing count of an item
 + Modifying the count of items manually
 + Clearing the tab
 
@@ -20,8 +20,8 @@ This is an Android app in which the users can count the bar consumption and avoi
 
 ### Future improvements
 + Showing a graph of consumption over time
-+ Showing "consumption speed" based on the duration and the number of items
-+ Calculating the total cost of the tab based on the prices of the items
++ Showing "consumption speed" based on time difference between count incrementing
++ Calculating the total cost of the tab based on the prices of items
 + Calculating blood alcohol level based on the drinks and user's weight
 
 ## Implementation
@@ -33,7 +33,7 @@ This is an Android app in which the users can count the bar consumption and avoi
   + UI events (such as user clicks) are passed from the UI to the ViewModel using a Channel
   + One time "commands" (such as navigation) are passed from the ViewModel to the UI using a Flow
 
-// TODO: Use Material3 composables once they are release as stable and not marked as experimental
+// TODO: Use Material3 composables once they are released as stable and not marked as experimental
 
 ### Package structure
 + Few root packages are present:
@@ -42,7 +42,7 @@ This is an Android app in which the users can count the bar consumption and avoi
   + `scene` - contains [subpackage for each of the screens](https://github.com/DanicMa/TheBeerCounter/tree/master/app/src/main/java/cz/damat/thebeercounter/scene)
   + `ui` - [reusable composables](https://github.com/DanicMa/TheBeerCounter/tree/master/app/src/main/java/cz/damat/thebeercounter/ui/component) and [definitions related to styling](https://github.com/DanicMa/TheBeerCounter/tree/master/app/src/main/java/cz/damat/thebeercounter/ui/theme)
 
-// TODO: modularization - if a larger number of features would be expected, the app would be split into multiple modules to, amongst other things, minimize build times, e.g. `common`(resources and utils), `compose`(reusable composables and styling), `data`(entities, DAOs, repositories) etc. ... possible further modularization could easily be done based on screens (or feature-scoped screen sets) due to separate packaging of all classes related to a single screen in the 'scene' package
+// TODO: modularization - if a larger number of features would be expected, the app would be split into multiple modules to, amongst other things, minimize build times, e.g. `common`(resources and utils), `compose`(reusable composables and styling), `data`(entities, DAOs, repositories) etc. ... possible further modularization could easily be done based on screens (or feature-scoped screen-sets) due to separate packaging of all classes related to a single screen in the 'scene' package
 
 ### Navigation
 + Compose Navigation handles navigation between screens in the [DashboardNavigation.kt](https://github.com/DanicMa/TheBeerCounter/blob/master/app/src/main/java/cz/damat/thebeercounter/scene/dashboard/DashboardNavigation.kt)
