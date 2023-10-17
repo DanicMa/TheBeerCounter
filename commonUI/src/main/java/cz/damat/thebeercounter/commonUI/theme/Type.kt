@@ -1,4 +1,4 @@
-package cz.damat.thebeercounter.ui.theme
+package cz.damat.thebeercounter.commonUI.theme
 
 import androidx.compose.material.Typography
 import androidx.compose.ui.text.TextStyle

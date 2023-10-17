@@ -12,8 +12,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.TextFieldValue
-import cz.damat.thebeercounter.ui.component.DialogThemed
-import cz.damat.thebeercounter.ui.utils.shake
+import cz.damat.thebeercounter.commonUI.component.DialogThemed
+import cz.damat.thebeercounter.commonUI.utils.shake
 import cz.damat.thebeercounter.commonUI.R
 
 @Composable

@@ -8,7 +8,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.ui.Modifier
 import cz.damat.thebeercounter.scene.dashboard.DashboardNavigation
-import cz.damat.thebeercounter.ui.theme.TheBeerCounterTheme
+import cz.damat.thebeercounter.commonUI.theme.TheBeerCounterTheme
 
 class MainActivity : ComponentActivity() {
 

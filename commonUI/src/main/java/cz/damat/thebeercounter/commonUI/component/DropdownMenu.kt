@@ -1,11 +1,11 @@
-package cz.damat.thebeercounter.ui.component
+package cz.damat.thebeercounter.commonUI.component
 
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.graphics.Color
-import cz.damat.thebeercounter.ui.theme.disabled
+import cz.damat.thebeercounter.commonUI.theme.disabled
 import kotlinx.coroutines.launch
 
 

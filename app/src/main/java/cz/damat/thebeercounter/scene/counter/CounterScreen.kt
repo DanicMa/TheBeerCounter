@@ -19,6 +19,9 @@ import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import cz.damat.thebeercounter.commonUI.R
+import cz.damat.thebeercounter.commonUI.component.CardThemed
+import cz.damat.thebeercounter.commonUI.component.ConfirmDialog
+import cz.damat.thebeercounter.commonUI.component.DropdownItem
 import cz.damat.thebeercounter.commonUI.utils.Previews
 import cz.damat.thebeercounter.commonUI.utils.collectCommand
 import cz.damat.thebeercounter.commonUI.utils.collectStateWithLifecycle
@@ -27,8 +30,8 @@ import cz.damat.thebeercounter.room.entity.Product
 import cz.damat.thebeercounter.scene.counter.dialog.AddNewProductDialog
 import cz.damat.thebeercounter.scene.counter.dialog.SetCountDialog
 import cz.damat.thebeercounter.ui.component.*
-import cz.damat.thebeercounter.ui.theme.disabled
-import cz.damat.thebeercounter.ui.utils.vibrateStrong
+import cz.damat.thebeercounter.commonUI.theme.disabled
+import cz.damat.thebeercounter.commonUI.utils.vibrateStrong
 import org.koin.androidx.compose.get
 import java.text.NumberFormat
 import java.util.*
@@ -256,7 +259,7 @@ private fun ProductDropdown(shown: MutableState<Boolean>, product: Product, onEv
             }
         )
     }
-    DropdownMenu(dropdownShown = shown, scaffoldState = null, items = dropdownItems)
+    cz.damat.thebeercounter.commonUI.component.DropdownMenu(dropdownShown = shown, scaffoldState = null, items = dropdownItems)
 }
 
 enum class MenuItem(@StringRes val titleRes: Int) {

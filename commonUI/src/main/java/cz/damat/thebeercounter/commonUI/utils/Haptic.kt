@@ -1,4 +1,4 @@
-package cz.damat.thebeercounter.ui.utils
+package cz.damat.thebeercounter.commonUI.utils
 
 import android.content.Context
 import android.view.HapticFeedbackConstants
