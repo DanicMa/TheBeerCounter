@@ -16,11 +16,11 @@ import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
-import cz.damat.thebeercounter.R
 import cz.damat.thebeercounter.room.entity.Product
 import cz.damat.thebeercounter.scene.counter.CounterEvent
 import cz.damat.thebeercounter.scene.counter.OnEvent
 import cz.damat.thebeercounter.ui.component.DialogThemed
+import cz.damat.thebeercounter.commonUI.R
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable

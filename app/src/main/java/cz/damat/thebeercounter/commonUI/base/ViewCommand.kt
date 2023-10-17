@@ -1,4 +1,4 @@
-package cz.damat.thebeercounter.common.base
+package cz.damat.thebeercounter.commonUI.base
 
 
 /**

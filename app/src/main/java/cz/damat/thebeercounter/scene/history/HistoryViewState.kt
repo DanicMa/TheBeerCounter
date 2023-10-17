@@ -1,7 +1,7 @@
 package cz.damat.thebeercounter.scene.history
 
 import androidx.compose.runtime.Immutable
-import cz.damat.thebeercounter.common.base.ViewState
+import cz.damat.thebeercounter.commonUI.base.ViewState
 import cz.damat.thebeercounter.room.dto.HistoryProduct
 import kotlinx.collections.immutable.ImmutableList
 import java.time.LocalDate

@@ -1,6 +1,6 @@
 package cz.damat.thebeercounter.scene.history
 
-import cz.damat.thebeercounter.common.base.ViewCommand
+import cz.damat.thebeercounter.commonUI.base.ViewCommand
 
 
 /**

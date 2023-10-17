@@ -1,4 +1,4 @@
-package cz.damat.thebeercounter.common.koin
+package cz.damat.thebeercounter.commonUI.koin
 
 import androidx.room.Room
 import cz.damat.thebeercounter.repository.HistoryRepository

@@ -18,11 +18,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import cz.damat.thebeercounter.R
-import cz.damat.thebeercounter.common.utils.Previews
-import cz.damat.thebeercounter.common.utils.collectCommand
-import cz.damat.thebeercounter.common.utils.collectStateWithLifecycle
-import cz.damat.thebeercounter.common.utils.getOnEvent
+import cz.damat.thebeercounter.commonUI.R
+import cz.damat.thebeercounter.commonUI.utils.Previews
+import cz.damat.thebeercounter.commonUI.utils.collectCommand
+import cz.damat.thebeercounter.commonUI.utils.collectStateWithLifecycle
+import cz.damat.thebeercounter.commonUI.utils.getOnEvent
 import cz.damat.thebeercounter.room.entity.Product
 import cz.damat.thebeercounter.scene.counter.dialog.AddNewProductDialog
 import cz.damat.thebeercounter.scene.counter.dialog.SetCountDialog
