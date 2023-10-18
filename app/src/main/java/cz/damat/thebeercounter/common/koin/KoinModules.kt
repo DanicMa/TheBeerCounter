@@ -1,9 +1,11 @@
 package cz.damat.thebeercounter.common.koin
 
 import androidx.room.Room
-import cz.damat.thebeercounter.repository.HistoryRepository
-import cz.damat.thebeercounter.repository.ProductRepository
-import cz.damat.thebeercounter.room.AppDatabase
+import cz.damat.thebeercounter.componentCounter.domain.repository.HistoryRepository
+import cz.damat.thebeercounter.componentCounter.domain.repository.ProductRepository
+import cz.damat.thebeercounter.componentCounter.data.repository_impl.HistoryRepositoryImpl
+import cz.damat.thebeercounter.componentCounter.data.repository_impl.ProductRepositoryImpl
+import cz.damat.thebeercounter.commonlib.room.AppDatabase
 import cz.damat.thebeercounter.scene.counter.CounterScreenViewModel
 import cz.damat.thebeercounter.scene.history.HistoryViewModel
 import org.koin.android.ext.koin.androidApplication
@@ -23,19 +25,3 @@ val appModule = module {
         HistoryViewModel(get())
     }
 }
-
-val databaseModule = module {
-    single {
-        Room.databaseBuilder(androidApplication(), AppDatabase::class.java, "beer_counter.db")
-            .fallbackToDestructiveMigration()
-            .build()
-    }
-
-    single { get<AppDatabase>().productDao() }
-    single { get<AppDatabase>().historyItemDao() }
-
-    single { ProductRepository(get(), get(), get()) }
-    single { HistoryRepository(get(), get()) }
-}
-
-val koinModules = listOf(appModule, databaseModule)

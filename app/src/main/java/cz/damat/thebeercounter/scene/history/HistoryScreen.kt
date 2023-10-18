@@ -26,8 +26,8 @@ import cz.damat.thebeercounter.common.utils.getOnEvent
 import cz.damat.thebeercounter.common.utils.toStringSigned
 import cz.damat.thebeercounter.commonUI.R
 import cz.damat.thebeercounter.commonUI.utils.*
-import cz.damat.thebeercounter.room.dto.HistoryProduct
-import cz.damat.thebeercounter.room.entity.HistoryItemType
+import cz.damat.thebeercounter.componentCounter.data.dto.HistoryProduct
+import cz.damat.thebeercounter.commonlib.room.entity.HistoryItemType
 import cz.damat.thebeercounter.commonUI.theme.disabled
 import org.koin.androidx.compose.get
 

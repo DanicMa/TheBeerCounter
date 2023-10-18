@@ -53,6 +53,8 @@ android {
 dependencies {
 
     implementation(project(":commonUI"))
+    implementation(project(":commonLib"))
+    implementation(project(":componentCounter"))
 
     implementation(Dependencies.core_ktx)
     implementation(Dependencies.lifecycle_runtime)
