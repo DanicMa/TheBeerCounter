@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "cz.damat.thebeercounter.commonUI"
+    namespace = "cz.damat.thebeercounter.feature.counter"
     compileSdk = BuildValues.compileSdk
 
     defaultConfig {
@@ -21,6 +21,9 @@ android {
         }
     }
     compileOptions {
+        // Flag to enable support for the new language APIs (need for e.g. LocalDate manipulation)
+        isCoreLibraryDesugaringEnabled = true
+
         sourceCompatibility = BuildValues.javaVersion
         targetCompatibility = BuildValues.javaVersion
     }
@@ -37,10 +40,16 @@ android {
 
 dependencies {
 
+    implementation(project(":commonUI"))
+    implementation(project(":commonLib")) // unfortunately, this is needed for having access to DB entities since they cannot be in the componentCounter module (and creating a 1to1 mapping class is not worth it ATM)
+    implementation(project(":componentCounter"))
+
     implementation(Dependencies.core_ktx)
     implementation(Dependencies.lifecycle_runtime)
     implementation(Dependencies.lifecycle_runtime_compose)
     implementation(Dependencies.activity_compose)
+
+    coreLibraryDesugaring(Dependencies.desugar)
 
     // COMPOSE
     implementation(Dependencies.compose_ui)
@@ -50,6 +59,14 @@ dependencies {
     implementation(Dependencies.compose_ui_test_manifest)
     implementation(Dependencies.compose_navigation)
 
+
+    implementation(Dependencies.collections_immutable)
+
+    //KOIN
+    implementation(Dependencies.koin_core)
+    implementation(Dependencies.koin_navigation)
+    implementation(Dependencies.koin_compose)
+    testImplementation(Dependencies.koin_junit)
 
     // TESTS
     testImplementation(Dependencies.test_junit)

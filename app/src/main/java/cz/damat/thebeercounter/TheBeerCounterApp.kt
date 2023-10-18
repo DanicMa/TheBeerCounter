@@ -1,9 +1,9 @@
 package cz.damat.thebeercounter
 
 import android.app.Application
-import cz.damat.thebeercounter.common.koin.appModule
 import cz.damat.thebeercounter.commonlib.commonLibKoinModule
 import cz.damat.thebeercounter.componentCounter.componentCounterKoinModule
+import cz.damat.thebeercounter.featureCounter.featureCounterKoinModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 
@@ -18,7 +18,7 @@ class TheBeerCounterApp : Application() {
 
         startKoin {
             androidContext(this@TheBeerCounterApp)
-            modules(listOf(appModule, commonLibKoinModule, componentCounterKoinModule))
+            modules(listOf(commonLibKoinModule, featureCounterKoinModule, componentCounterKoinModule))
         }
     }
 }

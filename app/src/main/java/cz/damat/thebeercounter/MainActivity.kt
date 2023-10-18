@@ -7,8 +7,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.ui.Modifier
-import cz.damat.thebeercounter.scene.dashboard.DashboardNavigation
-import cz.damat.thebeercounter.commonUI.theme.TheBeerCounterTheme
+import cz.damat.thebeercounter.featureCounter.scene.dashboard.DashboardNavigation
+import cz.damat.thebeercounter.commonUI.compose.theme.TheBeerCounterTheme
 
 class MainActivity : ComponentActivity() {
 

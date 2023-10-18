@@ -55,6 +55,7 @@ dependencies {
     implementation(project(":commonUI"))
     implementation(project(":commonLib"))
     implementation(project(":componentCounter"))
+    implementation(project(":featureCounter"))
 
     implementation(Dependencies.core_ktx)
     implementation(Dependencies.lifecycle_runtime)
