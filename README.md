@@ -35,14 +35,20 @@ This is an Android app in which the users can count their bar consumption and av
 
 // TODO: Use Material3 composables once they are released as stable and not marked as experimental
 
+### Library dependencies management
++ Dependencies are managed using the buildSrc module with a [Dependencies.kt](https://github.com/DanicMa/TheBeerCounter/tree/master/buildSrc/src/main/java/Dependencies.kt) file
++ This allows dependencies to be centrally defined, which assures that all modules are using the same versions and version-incompatibility bugs, that can be hard to find and fix, will not become a problem.
++ Since Gradle's Kotlin DSL is used, these dependency variables are "autosuggested" by the IDE, easily referenced and their usages can be easily found.
++ Disadvantage is that Android Studio does not highlight dependencies with updates available - this can be solved by using the [Gradle Versions Plugin](https://github.com/ben-manes/gradle-versions-plugin), although user-friendliness still leaves something to be desired
+
 ### Package structure
 + Few root packages are present:
   + `common` - [base classes](https://github.com/DanicMa/TheBeerCounter/tree/master/app/src/main/java/cz/damat/thebeercounter/common/base) + [utils and extensions](https://github.com/DanicMa/TheBeerCounter/tree/master/app/src/main/java/cz/damat/thebeercounter/common/utils)
   + `room` - [database related classes](https://github.com/DanicMa/TheBeerCounter/tree/master/app/src/main/java/cz/damat/thebeercounter/room)
   + `scene` - contains [subpackage for each of the screens](https://github.com/DanicMa/TheBeerCounter/tree/master/app/src/main/java/cz/damat/thebeercounter/scene)
-  + `ui` - [reusable composables](https://github.com/DanicMa/TheBeerCounter/tree/master/app/src/main/java/cz/damat/thebeercounter/ui/component) and [definitions related to styling](https://github.com/DanicMa/TheBeerCounter/tree/master/app/src/main/java/cz/damat/thebeercounter/ui/theme)
+  + `ui` - *(currently moved to separate module)* [reusable composables](https://github.com/DanicMa/TheBeerCounter/tree/master/app/src/main/java/cz/damat/thebeercounter/ui/component) and [definitions related to styling](https://github.com/DanicMa/TheBeerCounter/tree/master/app/src/main/java/cz/damat/thebeercounter/ui/theme)
 
-// TODO: modularization - if a larger number of features would be expected, the app would be split into multiple modules to, amongst other things, minimize build times, e.g. `common`(resources and utils), `compose`(reusable composables and styling), `data`(entities, DAOs, repositories) etc. ... possible further modularization could easily be done based on screens (or feature-scoped screen-sets) due to separate packaging of all classes related to a single screen in the 'scene' package
+// TODO *(in progress)*: modularization - if a larger number of features would be expected, the app would be split into multiple modules to, amongst other things, minimize build times, e.g. `common`(resources and utils), `compose`(reusable composables and styling), `data`(entities, DAOs, repositories) etc. ... possible further modularization could easily be done based on screens (or feature-scoped screen-sets) due to separate packaging of all classes related to a single screen in the 'scene' package
 
 ### Navigation
 + Compose Navigation handles navigation between screens in the [DashboardNavigation.kt](https://github.com/DanicMa/TheBeerCounter/blob/master/app/src/main/java/cz/damat/thebeercounter/scene/dashboard/DashboardNavigation.kt)
