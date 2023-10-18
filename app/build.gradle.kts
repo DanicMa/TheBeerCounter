@@ -6,12 +6,12 @@ plugins {
 
 android {
     namespace = "cz.damat.thebeercounter"
-    compileSdk = 33
+    compileSdk = BuildValues.compileSdk
 
     defaultConfig {
         applicationId = "cz.damat.thebeercounter"
-        minSdk = 23
-        targetSdk = 33
+        minSdk = BuildValues.minSdk
+        targetSdk = BuildValues.targetSdk
         versionCode = 1
         versionName = "1.0"
 
@@ -31,17 +31,17 @@ android {
         // Flag to enable support for the new language APIs (need for e.g. LocalDate manipulation)
         isCoreLibraryDesugaringEnabled = true
 
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = BuildValues.javaVersion
+        targetCompatibility = BuildValues.javaVersion
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = BuildValues.jvmTarget
     }
     buildFeatures {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.2.0"
+        kotlinCompilerExtensionVersion = BuildValues.kotlinCompilerExtensionVersion
     }
     packagingOptions {
         resources {
