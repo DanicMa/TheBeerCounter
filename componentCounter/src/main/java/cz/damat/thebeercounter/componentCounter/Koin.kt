@@ -13,7 +13,6 @@ import org.koin.dsl.module
  */
 val componentCounterKoinModule = module {
 
-    // todo mod - to commonLib module or not?
     single { get<AppDatabase>().productDao() }
     single { get<AppDatabase>().historyItemDao() }
 

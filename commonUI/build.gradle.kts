@@ -50,7 +50,6 @@ dependencies {
     implementation(Dependencies.compose_ui_test_manifest)
     implementation(Dependencies.compose_navigation)
 
-
     // TESTS
     testImplementation(Dependencies.test_junit)
     androidTestImplementation(Dependencies.test_ext_junit)

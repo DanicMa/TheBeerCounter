@@ -59,7 +59,6 @@ dependencies {
     implementation(Dependencies.compose_ui_test_manifest)
     implementation(Dependencies.compose_navigation)
 
-
     implementation(Dependencies.collections_immutable)
 
     //KOIN

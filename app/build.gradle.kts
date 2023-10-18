@@ -59,7 +59,6 @@ dependencies {
 
     implementation(Dependencies.core_ktx)
     implementation(Dependencies.lifecycle_runtime)
-    implementation(Dependencies.lifecycle_runtime_compose)
     implementation(Dependencies.activity_compose)
 
     // COMPOSE
@@ -77,13 +76,6 @@ dependencies {
     implementation(Dependencies.koin_navigation)
     implementation(Dependencies.koin_compose)
     testImplementation(Dependencies.koin_junit)
-
-    // ROOM
-    implementation(Dependencies.room_runtime)
-    annotationProcessor(Dependencies.room_compiler)
-    kapt(Dependencies.room_compiler)
-    implementation(Dependencies.room_room)
-
 
     // TESTS
     testImplementation(Dependencies.test_junit)

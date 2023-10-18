@@ -38,12 +38,6 @@ dependencies {
     implementation(Dependencies.core_ktx)
     coreLibraryDesugaring(Dependencies.desugar)
 
-    // TESTS
-    testImplementation(Dependencies.test_junit)
-    androidTestImplementation(Dependencies.test_ext_junit)
-    androidTestImplementation(Dependencies.test_espresso)
-    implementation(Dependencies.compose_ui_test_junit)
-
     //KOIN
     implementation(Dependencies.koin_core)
     implementation(Dependencies.koin_navigation)
@@ -55,4 +49,10 @@ dependencies {
     annotationProcessor(Dependencies.room_compiler)
     kapt(Dependencies.room_compiler)
     implementation(Dependencies.room_room)
+
+    // TESTS
+    testImplementation(Dependencies.test_junit)
+    androidTestImplementation(Dependencies.test_ext_junit)
+    androidTestImplementation(Dependencies.test_espresso)
+    implementation(Dependencies.compose_ui_test_junit)
 }
