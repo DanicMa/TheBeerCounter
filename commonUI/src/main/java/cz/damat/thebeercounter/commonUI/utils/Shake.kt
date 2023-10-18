@@ -1,4 +1,4 @@
-package cz.damat.thebeercounter.ui.utils
+package cz.damat.thebeercounter.commonUI.utils
 
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.FastOutLinearInEasing

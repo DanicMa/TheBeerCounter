@@ -51,48 +51,42 @@ android {
 }
 
 dependencies {
-    implementation("androidx.core:core-ktx:1.10.0")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.1")
-    implementation("androidx.activity:activity-compose:1.7.1")
+
+    implementation(project(":commonUI"))
+
+    implementation(Dependencies.core_ktx)
+    implementation(Dependencies.lifecycle_runtime)
+    implementation(Dependencies.lifecycle_runtime_compose)
+    implementation(Dependencies.activity_compose)
 
     // COMPOSE
-    val composeVersion = "1.1.1"
-    implementation("androidx.compose.ui:ui:$composeVersion")
-    implementation("androidx.compose.ui:ui-tooling-preview:$composeVersion")
-    implementation("androidx.compose.material:material:$composeVersion")
-    debugImplementation("androidx.compose.ui:ui-tooling:$composeVersion")
-    debugImplementation("androidx.compose.ui:ui-test-manifest:$composeVersion")
-    implementation("androidx.navigation:navigation-compose:2.5.3")
-    implementation("androidx.compose.ui:ui-tooling-preview:1.4.2")
+    implementation(Dependencies.compose_ui)
+    implementation(Dependencies.compose_ui_tooling_preview)
+    implementation(Dependencies.compose_material)
+    implementation(Dependencies.compose_ui_tooling)
+    implementation(Dependencies.compose_ui_test_manifest)
+    implementation(Dependencies.compose_navigation)
 
-    // IMMUTABLE COLLECTIONS FOR KOTLIN (for composable methods stability)
-    implementation("org.jetbrains.kotlinx:kotlinx-collections-immutable:0.3.5")
-
-    // LIFECYCLE AWARE FLOW COLLECTION (for lifecycle aware viewstate collection in compose)
-    implementation("androidx.lifecycle:lifecycle-runtime-compose:2.6.1")
+    implementation(Dependencies.collections_immutable)
 
     //KOIN
-    val koinVersion = "3.4.0"
-    implementation("io.insert-koin:koin-core:$koinVersion")
-    implementation("io.insert-koin:koin-androidx-navigation:$koinVersion")
-    implementation("io.insert-koin:koin-androidx-compose:$koinVersion")
-    testImplementation("io.insert-koin:koin-test-junit4:$koinVersion")
-
-    val room_version = "2.5.1"
+    implementation(Dependencies.koin_core)
+    implementation(Dependencies.koin_navigation)
+    implementation(Dependencies.koin_compose)
+    testImplementation(Dependencies.koin_junit)
 
     // ROOM
-    implementation("androidx.room:room-runtime:$room_version")
-    annotationProcessor("androidx.room:room-compiler:$room_version")
-    kapt("androidx.room:room-compiler:$room_version")
-    implementation("androidx.room:room-ktx:$room_version")
+    implementation(Dependencies.room_runtime)
+    annotationProcessor(Dependencies.room_compiler)
+    kapt(Dependencies.room_compiler)
+    implementation(Dependencies.room_room)
 
 
     // TESTS
-    testImplementation("junit:junit:4.13.2")
-    androidTestImplementation("androidx.test.ext:junit:1.1.5")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
-    androidTestImplementation("androidx.compose.ui:ui-test-junit4:$composeVersion")
+    testImplementation(Dependencies.test_junit)
+    androidTestImplementation(Dependencies.test_ext_junit)
+    androidTestImplementation(Dependencies.test_espresso)
+    implementation(Dependencies.compose_ui_test_junit)
 
-    // DESUGARING (e.g. for LocalDate manipulation on API < 26)
-    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:1.2.2")
+    coreLibraryDesugaring(Dependencies.desugar)
 }

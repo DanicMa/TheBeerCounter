@@ -1,4 +1,4 @@
-package cz.damat.thebeercounter.ui.component
+package cz.damat.thebeercounter.commonUI.component
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable

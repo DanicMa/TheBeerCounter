@@ -53,7 +53,7 @@ fun <T : ViewEvent> BaseViewModel<*, T, *>.getOnEvent(): ((T) -> Unit) {
  *
  */
 @Composable
-fun <T : ViewCommand> BaseViewModel<*,*,T>.collectCommand(
+fun <T : ViewCommand> BaseViewModel<*, *, T>.collectCommand(
     block: suspend (T) -> Unit
 ) {
     val lifecycleOwner = LocalLifecycleOwner.current

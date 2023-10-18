@@ -22,10 +22,10 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import cz.damat.thebeercounter.R
+import cz.damat.thebeercounter.commonUI.R
 import cz.damat.thebeercounter.scene.counter.CounterScreen
 import cz.damat.thebeercounter.scene.history.HistoryScreen
-import cz.damat.thebeercounter.ui.theme.medium
+import cz.damat.thebeercounter.commonUI.theme.medium
 
 /**
  * Created by MD on 23.04.23.
@@ -115,7 +115,7 @@ private enum class DashboardNavigationItem(
     @Composable
     fun getVectorResource(): ImageVector {
         return when(this) {
-            Counter -> ImageVector.vectorResource(id = R.drawable.ic_tally_24)
+            Counter -> ImageVector.vectorResource(id = cz.damat.thebeercounter.commonUI.R.drawable.ic_tally_24)
             History -> Icons.Default.List
             More -> Icons.Default.MoreVert
         }
