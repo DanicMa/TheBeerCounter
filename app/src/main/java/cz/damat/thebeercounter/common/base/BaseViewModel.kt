@@ -1,7 +1,7 @@
-package cz.damat.thebeercounter.commonUI.base
+package cz.damat.thebeercounter.common.base
 
 import androidx.lifecycle.ViewModel
-import cz.damat.thebeercounter.commonUI.utils.baseCoroutineExceptionHandler
+import cz.damat.thebeercounter.common.utils.baseCoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob

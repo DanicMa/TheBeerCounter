@@ -37,24 +37,20 @@ android {
 
 dependencies {
 
-    implementation("androidx.core:core-ktx:1.10.0")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.1")
-    implementation("androidx.activity:activity-compose:1.7.1")
+    implementation(Dependencies.core_ktx)
 
     // COMPOSE
-    val composeVersion = "1.1.1"
-    implementation("androidx.compose.ui:ui:$composeVersion")
-    implementation("androidx.compose.ui:ui-tooling-preview:$composeVersion")
-    implementation("androidx.compose.material:material:$composeVersion")
-    debugImplementation("androidx.compose.ui:ui-tooling:$composeVersion")
-    debugImplementation("androidx.compose.ui:ui-test-manifest:$composeVersion")
-    implementation("androidx.navigation:navigation-compose:2.5.3")
-    implementation("androidx.compose.ui:ui-tooling-preview:1.4.2")
+    implementation(Dependencies.compose_ui)
+    implementation(Dependencies.compose_ui_tooling_preview)
+    implementation(Dependencies.compose_material)
+    implementation(Dependencies.compose_ui_tooling)
+    implementation(Dependencies.compose_ui_test_manifest)
+    implementation(Dependencies.compose_navigation)
 
 
     // TESTS
-    testImplementation("junit:junit:4.13.2")
-    androidTestImplementation("androidx.test.ext:junit:1.1.5")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
-    androidTestImplementation("androidx.compose.ui:ui-test-junit4:$composeVersion")
+    testImplementation(Dependencies.test_junit)
+    androidTestImplementation(Dependencies.test_ext_junit)
+    androidTestImplementation(Dependencies.test_espresso)
+    implementation(Dependencies.compose_ui_test_junit)
 }

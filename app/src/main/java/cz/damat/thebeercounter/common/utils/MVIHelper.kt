@@ -1,14 +1,14 @@
-package cz.damat.thebeercounter.commonUI.utils
+package cz.damat.thebeercounter.common.utils
 
 import androidx.compose.runtime.*
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.flowWithLifecycle
-import cz.damat.thebeercounter.commonUI.base.BaseViewModel
-import cz.damat.thebeercounter.commonUI.base.ViewCommand
-import cz.damat.thebeercounter.commonUI.base.ViewEvent
-import cz.damat.thebeercounter.commonUI.base.ViewState
+import cz.damat.thebeercounter.common.base.BaseViewModel
+import cz.damat.thebeercounter.common.base.ViewCommand
+import cz.damat.thebeercounter.common.base.ViewEvent
+import cz.damat.thebeercounter.common.base.ViewState
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -53,7 +53,7 @@ fun <T : ViewEvent> BaseViewModel<*, T, *>.getOnEvent(): ((T) -> Unit) {
  *
  */
 @Composable
-fun <T : ViewCommand> BaseViewModel<*,*,T>.collectCommand(
+fun <T : ViewCommand> BaseViewModel<*, *, T>.collectCommand(
     block: suspend (T) -> Unit
 ) {
     val lifecycleOwner = LocalLifecycleOwner.current

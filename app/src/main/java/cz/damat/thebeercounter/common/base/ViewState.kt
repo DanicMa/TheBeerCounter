@@ -1,4 +1,4 @@
-package cz.damat.thebeercounter.commonUI.base
+package cz.damat.thebeercounter.common.base
 
 import androidx.compose.runtime.Immutable
 

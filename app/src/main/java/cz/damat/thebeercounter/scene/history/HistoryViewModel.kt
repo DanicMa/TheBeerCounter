@@ -1,6 +1,6 @@
 package cz.damat.thebeercounter.scene.history
 
-import cz.damat.thebeercounter.commonUI.base.BaseViewModel
+import cz.damat.thebeercounter.common.base.BaseViewModel
 import cz.damat.thebeercounter.repository.HistoryRepository
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.flow.launchIn

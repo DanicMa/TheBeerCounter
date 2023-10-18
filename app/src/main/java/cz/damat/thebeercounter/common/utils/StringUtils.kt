@@ -1,4 +1,4 @@
-package cz.damat.thebeercounter.commonUI.utils
+package cz.damat.thebeercounter.common.utils
 
 import android.content.Context
 import android.text.format.DateFormat

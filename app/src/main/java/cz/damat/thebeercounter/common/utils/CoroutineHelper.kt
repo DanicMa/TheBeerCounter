@@ -1,4 +1,4 @@
-package cz.damat.thebeercounter.commonUI.utils
+package cz.damat.thebeercounter.common.utils
 
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineExceptionHandler

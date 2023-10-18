@@ -3,7 +3,7 @@ package cz.damat.thebeercounter.scene.counter
 import android.content.res.Resources
 import androidx.annotation.StringRes
 import cz.damat.thebeercounter.commonUI.R
-import cz.damat.thebeercounter.commonUI.base.BaseViewModel
+import cz.damat.thebeercounter.common.base.BaseViewModel
 import cz.damat.thebeercounter.repository.ProductRepository
 import cz.damat.thebeercounter.room.entity.HistoryItemType
 import cz.damat.thebeercounter.room.entity.Product

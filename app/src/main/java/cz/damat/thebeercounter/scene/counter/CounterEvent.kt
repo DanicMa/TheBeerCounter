@@ -1,6 +1,6 @@
 package cz.damat.thebeercounter.scene.counter
 
-import cz.damat.thebeercounter.commonUI.base.ViewEvent
+import cz.damat.thebeercounter.common.base.ViewEvent
 
 
 /**
