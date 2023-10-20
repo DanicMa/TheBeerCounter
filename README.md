@@ -25,30 +25,42 @@ This is an Android app in which the users can count their bar consumption and av
 + Calculating blood alcohol level based on the drinks and user's weight
 
 ## Implementation
-### Architecture
-+ Fully implemented in Jetpack Compose
-+ MVI architecture
-  + Business logic is implemented in [ViewModels](https://github.com/DanicMa/TheBeerCounter/blob/master/app/src/main/java/cz/damat/thebeercounter/common/base/BaseViewModel.kt)
-  + State of every piece of the data that should be shown is stored in a data class that is passed to the UI using a StateFlow that is updated exclusively from the ViewModel
-  + UI events (such as user clicks) are passed from the UI to the ViewModel using a Channel
-  + One time "commands" (such as navigation) are passed from the ViewModel to the UI using a Flow
+### MVI architecture
++ [ViewModels](https://github.com/DanicMa/TheBeerCounter/blob/master/app/src/main/java/cz/damat/thebeercounter/common/base/BaseViewModel.kt) provide state data classes with every piece of information that should be shown to the Composables using a StateFlow. This flow is updated with new instances exclusively from the ViewModel.
++ UI events (such as user clicks, a.k.a. "intents") are passed from the UI to the ViewModel using a Channel.
++ One time "commands" (such as Toast showing) are passed from the ViewModel to the UI using a Flow.
++ This removes the need to pass ViewModel instance references further down the Composable tree thus allowing the Composables to be considered [skippable](https://developer.android.com/jetpack/compose/performance/stability#functions) and therefore reducing the number and scope of recompositions.
++ The UI is implemented fully in Jetpack Compose
 
 // TODO: Use Material3 composables once they are released as stable and not marked as experimental
+
+### Modularized clean architecture
++ The app is following the [clean architecture principles](https://www.scaler.com/topics/clean-architecture-android/) where the code is effectively split into 3 layers:
+  + `data` - contains all the data related classes (entities, DAOs, repositories, ...)
+  + `domain` - contains all the business logic related classes (use cases, mappers, ...) as well as the repository interfaces
+  + `presentation` a.k.a. `ui` - contains all the presentation related classes (ViewModels, Composables, ...)
++ Modularization is applied by grouping related classes by rules suggested in an [article by Denis Brandi](https://betterprogramming.pub/the-real-clean-architecture-in-android-modularization-e26940fd0a23):
+  + data and domain classes relating to a feature (or a related set of features) are grouped into a single module called `componentXXX`
+  + presentation classes of a feature (or their set) are grouped into a single module called `featureYYY`
+  + external libraries (e.g. Room) and classes that are needed by all "components" are placed in a `commonLib` module on which all "component" modules depend
+  + presentation classes that are used by multiple "features" (e.g. base MVI classes, shared components, utils, ...) are placed in a `commonUI` module on which all "feature" modules depend
+  + "feature" modules (presentation) may depend on multiple "component" modules (data and domain) but not vice versa
+  + an `app` module is used as a "glue" module that depends on "all" other modules and contains the application class and handles navigating between feature modules
+
+<img src="https://miro.medium.com/v2/resize:fit:720/format:webp/1*vMo2FbipyXkr6BUOxjNr8Q.png" width=300px/>
+
+
+#### Deviations and simplifications in this project:
+  + Use cases are not present as the business logic is not complex enough to warrant their use (they would be used only as a call-through objects that directly call the repository methods). In more complex project with a non-trivial business logic use cases would make for a cleaner, understandable and more reusable code.
+  + `Product` and `HistoryItem` DB entities that should be in the `componentCounter` module are placed in `commonLib` module since they are needed during the RoomDB initialization which is done in the `commonLib` module. (For bigger projects this could be mitigated by using separate DBs for each of the "component" modules)
+  + DB entities are used directly in the presentation layer as the data is not complex enough to warrant the use of mappers of 1:1 entities.
+
 
 ### Library dependencies management
 + Dependencies are managed using the buildSrc module with a [Dependencies.kt](https://github.com/DanicMa/TheBeerCounter/tree/master/buildSrc/src/main/java/Dependencies.kt) file
 + This allows dependencies to be centrally defined, which assures that all modules are using the same versions and version-incompatibility bugs, that can be hard to find and fix, will not become a problem.
 + Since Gradle's Kotlin DSL is used, these dependency variables are "autosuggested" by the IDE, easily referenced and their usages can be easily found.
 + Disadvantage is that Android Studio does not highlight dependencies with updates available - this can be solved by using the [Gradle Versions Plugin](https://github.com/ben-manes/gradle-versions-plugin), although user-friendliness still leaves something to be desired
-
-### Package structure
-+ Few root packages are present:
-  + `common` - [base classes](https://github.com/DanicMa/TheBeerCounter/tree/master/app/src/main/java/cz/damat/thebeercounter/common/base) + [utils and extensions](https://github.com/DanicMa/TheBeerCounter/tree/master/app/src/main/java/cz/damat/thebeercounter/common/utils)
-  + `room` - [database related classes](https://github.com/DanicMa/TheBeerCounter/tree/master/app/src/main/java/cz/damat/thebeercounter/room)
-  + `scene` - contains [subpackage for each of the screens](https://github.com/DanicMa/TheBeerCounter/tree/master/app/src/main/java/cz/damat/thebeercounter/scene)
-  + `ui` - *(currently moved to separate module)* [reusable composables](https://github.com/DanicMa/TheBeerCounter/tree/master/app/src/main/java/cz/damat/thebeercounter/ui/component) and [definitions related to styling](https://github.com/DanicMa/TheBeerCounter/tree/master/app/src/main/java/cz/damat/thebeercounter/ui/theme)
-
-// TODO *(in progress)*: modularization - if a larger number of features would be expected, the app would be split into multiple modules to, amongst other things, minimize build times, e.g. `common`(resources and utils), `compose`(reusable composables and styling), `data`(entities, DAOs, repositories) etc. ... possible further modularization could easily be done based on screens (or feature-scoped screen-sets) due to separate packaging of all classes related to a single screen in the 'scene' package
 
 ### Navigation
 + Compose Navigation handles navigation between screens in the [DashboardNavigation.kt](https://github.com/DanicMa/TheBeerCounter/blob/master/app/src/main/java/cz/damat/thebeercounter/scene/dashboard/DashboardNavigation.kt)
