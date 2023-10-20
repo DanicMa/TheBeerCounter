@@ -28,9 +28,6 @@ android {
         }
     }
     compileOptions {
-        // Flag to enable support for the new language APIs (need for e.g. LocalDate manipulation)
-        isCoreLibraryDesugaringEnabled = true
-
         sourceCompatibility = BuildValues.javaVersion
         targetCompatibility = BuildValues.javaVersion
     }
@@ -69,8 +66,6 @@ dependencies {
     implementation(Dependencies.compose_ui_test_manifest)
     implementation(Dependencies.compose_navigation)
 
-    implementation(Dependencies.collections_immutable)
-
     //KOIN
     implementation(Dependencies.koin_core)
     implementation(Dependencies.koin_navigation)
@@ -82,6 +77,4 @@ dependencies {
     androidTestImplementation(Dependencies.test_ext_junit)
     androidTestImplementation(Dependencies.test_espresso)
     implementation(Dependencies.compose_ui_test_junit)
-
-    coreLibraryDesugaring(Dependencies.desugar)
 }
