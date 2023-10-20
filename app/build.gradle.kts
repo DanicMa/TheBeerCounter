@@ -6,12 +6,12 @@ plugins {
 
 android {
     namespace = "cz.damat.thebeercounter"
-    compileSdk = 33
+    compileSdk = BuildValues.compileSdk
 
     defaultConfig {
         applicationId = "cz.damat.thebeercounter"
-        minSdk = 23
-        targetSdk = 33
+        minSdk = BuildValues.minSdk
+        targetSdk = BuildValues.targetSdk
         versionCode = 1
         versionName = "1.0"
 
@@ -28,20 +28,17 @@ android {
         }
     }
     compileOptions {
-        // Flag to enable support for the new language APIs (need for e.g. LocalDate manipulation)
-        isCoreLibraryDesugaringEnabled = true
-
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = BuildValues.javaVersion
+        targetCompatibility = BuildValues.javaVersion
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = BuildValues.jvmTarget
     }
     buildFeatures {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.2.0"
+        kotlinCompilerExtensionVersion = BuildValues.kotlinCompilerExtensionVersion
     }
     packagingOptions {
         resources {
@@ -53,10 +50,12 @@ android {
 dependencies {
 
     implementation(project(":commonUI"))
+    implementation(project(":commonLib"))
+    implementation(project(":componentCounter"))
+    implementation(project(":featureCounter"))
 
     implementation(Dependencies.core_ktx)
     implementation(Dependencies.lifecycle_runtime)
-    implementation(Dependencies.lifecycle_runtime_compose)
     implementation(Dependencies.activity_compose)
 
     // COMPOSE
@@ -67,26 +66,15 @@ dependencies {
     implementation(Dependencies.compose_ui_test_manifest)
     implementation(Dependencies.compose_navigation)
 
-    implementation(Dependencies.collections_immutable)
-
     //KOIN
     implementation(Dependencies.koin_core)
     implementation(Dependencies.koin_navigation)
     implementation(Dependencies.koin_compose)
     testImplementation(Dependencies.koin_junit)
 
-    // ROOM
-    implementation(Dependencies.room_runtime)
-    annotationProcessor(Dependencies.room_compiler)
-    kapt(Dependencies.room_compiler)
-    implementation(Dependencies.room_room)
-
-
     // TESTS
     testImplementation(Dependencies.test_junit)
     androidTestImplementation(Dependencies.test_ext_junit)
     androidTestImplementation(Dependencies.test_espresso)
     implementation(Dependencies.compose_ui_test_junit)
-
-    coreLibraryDesugaring(Dependencies.desugar)
 }

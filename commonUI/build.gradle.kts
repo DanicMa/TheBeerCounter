@@ -5,10 +5,10 @@ plugins {
 
 android {
     namespace = "cz.damat.thebeercounter.commonUI"
-    compileSdk = 33
+    compileSdk = BuildValues.compileSdk
 
     defaultConfig {
-        minSdk = 23
+        minSdk = BuildValues.minSdk
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
@@ -21,23 +21,26 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = BuildValues.javaVersion
+        targetCompatibility = BuildValues.javaVersion
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = BuildValues.jvmTarget
     }
     buildFeatures {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.2.0"
+        kotlinCompilerExtensionVersion = BuildValues.kotlinCompilerExtensionVersion
     }
 }
 
 dependencies {
 
     implementation(Dependencies.core_ktx)
+    implementation(Dependencies.lifecycle_runtime)
+    implementation(Dependencies.lifecycle_runtime_compose)
+    implementation(Dependencies.activity_compose)
 
     // COMPOSE
     implementation(Dependencies.compose_ui)
@@ -46,7 +49,6 @@ dependencies {
     implementation(Dependencies.compose_ui_tooling)
     implementation(Dependencies.compose_ui_test_manifest)
     implementation(Dependencies.compose_navigation)
-
 
     // TESTS
     testImplementation(Dependencies.test_junit)

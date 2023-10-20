@@ -1,6 +1,6 @@
 plugins {
     // plugin that checks for dependency updates and suggests new versions (since automated version checks don't work with buildSrc defined dependencies)
-    id("com.github.ben-manes.versions") version ("0.49.0") // to check run gradle task: Tasks -> help -> dependencyUpdates
+    id("com.github.ben-manes.versions") version ("0.49.0")
 }
 
 buildscript {
