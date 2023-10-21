@@ -10,13 +10,13 @@ import java.math.BigDecimal
  * Created by MD on 23.04.23.
  */
 
-const val InitialItemId = 1
-const val Id = "id"
+const val INITIAL_ITEM_ID = 1
+const val ID = "id"
 
 @Entity
 data class Product(
     @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name = Id)
+    @ColumnInfo(name = ID)
     val id: Int = 0,
     val name: String,
     val price : BigDecimal?,

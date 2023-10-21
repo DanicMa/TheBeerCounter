@@ -1,6 +1,7 @@
 package cz.damat.thebeercounter.commonlib.room.dao
 
-import androidx.room.*
+import androidx.room.Dao
+import androidx.room.Query
 import cz.damat.thebeercounter.commonlib.room.BaseDao
 import cz.damat.thebeercounter.commonlib.room.entity.Product
 import kotlinx.coroutines.flow.Flow
