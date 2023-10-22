@@ -23,4 +23,8 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
+
+    fun testEmpty(){
+
+    }
 }
