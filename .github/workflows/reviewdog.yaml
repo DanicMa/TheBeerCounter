@@ -5,6 +5,8 @@ jobs:
   detekt:
     name: Run detekt and report as comments
     runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
 
     steps:
       - name: checkout
