@@ -129,6 +129,7 @@ complexity:
   LongMethod:
     active: true
     threshold: 60
+    ignoreAnnotated: ['Composable']
   LongParameterList:
     active: true
     functionThreshold: 6
@@ -365,7 +366,7 @@ naming:
     packagePattern: '[a-z]+(\.[a-z][A-Za-z0-9]*)*'
   TopLevelPropertyNaming:
     active: true
-    constantPattern: '[A-Z][A-Za-z0-9][_A-Z0-9]*'
+    constantPattern: '[A-Z][_A-Za-z0-9]*'
     propertyPattern: '[A-Za-z][_A-Za-z0-9]*'
     privatePropertyPattern: '_?[A-Za-z][_A-Za-z0-9]*'
   VariableMaxLength:
@@ -632,10 +633,10 @@ style:
     maxChainedCalls: 5
   MaxLineLength:
     active: true
-    maxLineLength: 120
+    maxLineLength: 160
     excludePackageStatements: true
     excludeImportStatements: true
-    excludeCommentStatements: false
+    excludeCommentStatements: true
     excludeRawStrings: true
   MayBeConst:
     active: true
@@ -739,7 +740,7 @@ style:
   UnusedPrivateMember:
     active: true
     allowedNames: ''
-    ignoreAnnotated: ['Preview']
+    ignoreAnnotated: ['Preview', 'Previews']
   UnusedPrivateProperty:
     active: true
     allowedNames: '_|ignored|expected|serialVersionUID'
@@ -782,5 +783,4 @@ style:
     ignoreLateinitVar: false
   WildcardImport:
     active: true
-    excludeImports:
-      - 'java.util.*'
+    excludeImports: ['java.util.*','androidx.compose.runtime.*','org.junit.Assert.*','androidx.compose.foundation.layout.*','androidx.compose.material.*']

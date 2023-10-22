@@ -25,7 +25,6 @@ import cz.damat.thebeercounter.commonUI.utils.formatToTimeString
 import cz.damat.thebeercounter.commonUI.utils.getOnEvent
 import cz.damat.thebeercounter.commonUI.utils.toStringSigned
 import cz.damat.thebeercounter.commonUI.R
-import cz.damat.thebeercounter.commonUI.utils.*
 import cz.damat.thebeercounter.componentCounter.data.dto.HistoryProduct
 import cz.damat.thebeercounter.commonlib.room.entity.HistoryItemType
 import cz.damat.thebeercounter.commonUI.compose.theme.disabled
@@ -41,7 +40,7 @@ fun HistoryScreen() {
     val viewState = viewModel.collectStateWithLifecycle()
     val onEvent = viewModel.getOnEvent()
 
-    CommandCollector(viewModel = viewModel, onEvent)
+    CommandCollector(viewModel = viewModel)
 
     HistoryScreenContent(viewState = viewState.value, onEvent = onEvent)
 }
@@ -56,7 +55,6 @@ private fun Preview() {
 @Composable
 private fun CommandCollector(
     viewModel: HistoryViewModel,
-    onEvent: OnEvent
 ) {
     viewModel.collectCommand(block = { command ->
         when (command) {
@@ -135,6 +133,7 @@ private fun HistoryProductDay(
 
                 Box(modifier = Modifier.align(Alignment.CenterEnd)) {
                     IconButton(onClick = { onEvent(HistoryEvent.OnHistoryItemClick(item)) }) {
+                        @Suppress("MagicNumber")
                         Icon(
                             modifier = Modifier
                                 .graphicsLayer {
@@ -162,7 +161,7 @@ private fun HistoryProductDay(
                 )
             ) {
                 item.historyItems.forEach { historyItem ->
-                    HistoryProductItem(item = historyItem, onEvent = onEvent)
+                    HistoryProductItem(item = historyItem)
                 }
             }
         }
@@ -171,8 +170,7 @@ private fun HistoryProductDay(
 
 @Composable
 private fun HistoryProductItem(
-    item: HistoryProduct,
-    onEvent: OnEvent
+    item: HistoryProduct
 ) {
     //todo - dropdown for deleting OR swipe to delete?
 

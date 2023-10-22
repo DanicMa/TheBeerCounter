@@ -1,6 +1,10 @@
 package cz.damat.thebeercounter.commonUI.compose.component
 
-import androidx.compose.material.*
+import androidx.compose.material.DropdownMenuItem
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.ScaffoldState
+import androidx.compose.material.SnackbarDuration
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.rememberCoroutineScope
@@ -59,7 +63,7 @@ fun DropdownMenu(
 
 @Composable
 fun Dropdown(dropdownShown: MutableState<Boolean>, content: @Composable () -> Unit) {
-    DropdownMenu(
+    androidx.compose.material.DropdownMenu(
         expanded = dropdownShown.value,
         onDismissRequest = { dropdownShown.value = false },
     ) {

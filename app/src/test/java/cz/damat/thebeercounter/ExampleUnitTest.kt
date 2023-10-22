@@ -1,5 +1,3 @@
-@file:Suppress("WildcardImport")
-
 package cz.damat.thebeercounter
 
 import org.junit.Test

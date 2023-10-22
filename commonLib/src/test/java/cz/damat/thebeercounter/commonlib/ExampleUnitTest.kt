@@ -1,4 +1,3 @@
-@file:Suppress("WildcardImport")
 package cz.damat.thebeercounter.commonlib
 
 import org.junit.Test

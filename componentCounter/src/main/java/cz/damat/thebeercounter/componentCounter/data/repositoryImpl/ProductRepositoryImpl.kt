@@ -1,4 +1,4 @@
-package cz.damat.thebeercounter.componentCounter.data.repository_impl
+package cz.damat.thebeercounter.componentCounter.data.repositoryImpl
 
 import androidx.room.withTransaction
 import cz.damat.thebeercounter.commonlib.room.AppDatabase
