@@ -20,6 +20,7 @@ import kotlinx.coroutines.launch
  */
 private const val ShakeDurationMillis = 800
 
+@Suppress("MagicNumber")
 fun Modifier.shake(enabled: MutableState<Boolean>) = composed {
     val offsetX = remember { Animatable(0f) }
     val coroutineScope = rememberCoroutineScope()

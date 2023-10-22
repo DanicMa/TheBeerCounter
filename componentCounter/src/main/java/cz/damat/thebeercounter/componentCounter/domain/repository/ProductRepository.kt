@@ -1,14 +1,8 @@
 package cz.damat.thebeercounter.componentCounter.domain.repository
 
-import cz.damat.thebeercounter.commonlib.room.AppDatabase
-import cz.damat.thebeercounter.commonlib.room.dao.HistoryItemDao
-import cz.damat.thebeercounter.commonlib.room.dao.ProductDao
-import cz.damat.thebeercounter.commonlib.room.entity.HistoryItem
 import cz.damat.thebeercounter.commonlib.room.entity.HistoryItemType
-import cz.damat.thebeercounter.commonlib.room.entity.InitialItemId
 import cz.damat.thebeercounter.commonlib.room.entity.Product
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.first
 import org.koin.core.component.KoinComponent
 
 

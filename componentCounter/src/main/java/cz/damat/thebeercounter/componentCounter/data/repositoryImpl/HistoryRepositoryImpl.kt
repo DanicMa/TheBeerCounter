@@ -1,4 +1,4 @@
-package cz.damat.thebeercounter.componentCounter.data.repository_impl
+package cz.damat.thebeercounter.componentCounter.data.repositoryImpl
 
 import cz.damat.thebeercounter.commonlib.room.AppDatabase
 import cz.damat.thebeercounter.commonlib.room.dao.HistoryItemDao
@@ -11,7 +11,7 @@ import java.time.ZoneId
 /**
  * Created by MD on 03.05.23.
  */
-class HistoryRepositoryImpl(private val db: AppDatabase, private val historyItemDao: HistoryItemDao) : HistoryRepository {
+class HistoryRepositoryImpl(private val historyItemDao: HistoryItemDao) : HistoryRepository {
 
     override fun getHistoryItemsFlow() = historyItemDao.getHistoryItemsMap().map {
         val flatList = it.flatMap { (product, historyItems) ->

@@ -1,4 +1,4 @@
-package cz.damat.thebeercounter.componentCounter.data.repository_impl
+package cz.damat.thebeercounter.componentCounter.data.repositoryImpl
 
 import androidx.room.withTransaction
 import cz.damat.thebeercounter.commonlib.room.AppDatabase
@@ -6,7 +6,7 @@ import cz.damat.thebeercounter.commonlib.room.dao.HistoryItemDao
 import cz.damat.thebeercounter.commonlib.room.dao.ProductDao
 import cz.damat.thebeercounter.commonlib.room.entity.HistoryItem
 import cz.damat.thebeercounter.commonlib.room.entity.HistoryItemType
-import cz.damat.thebeercounter.commonlib.room.entity.InitialItemId
+import cz.damat.thebeercounter.commonlib.room.entity.INITIAL_ITEM_ID
 import cz.damat.thebeercounter.commonlib.room.entity.Product
 import cz.damat.thebeercounter.componentCounter.domain.repository.ProductRepository
 import kotlinx.coroutines.flow.first
@@ -84,7 +84,7 @@ class ProductRepositoryImpl(private val db: AppDatabase, private val productDao:
     override suspend fun clearAllAndAddInitialProduct(initialItemName: String) {
         db.withTransaction {
             getShownProductsFlow().first().forEach {
-                if (it.id == InitialItemId) {
+                if (it.id == INITIAL_ITEM_ID) {
                     setProductCount(it.id, 0, HistoryItemType.DELETE)
                 } else {
                     hideProduct(it.id)
@@ -97,7 +97,7 @@ class ProductRepositoryImpl(private val db: AppDatabase, private val productDao:
 
     override suspend fun addInitialProduct(name: String) {
         val initialProduct = Product(
-            id = InitialItemId,
+            id = INITIAL_ITEM_ID,
             name = name,
             price = null,
             count = 0,

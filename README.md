@@ -60,19 +60,22 @@ This is an Android app in which the users can count their bar consumption and av
 + Dependencies are managed using the buildSrc module with a [Dependencies.kt](https://github.com/DanicMa/TheBeerCounter/tree/master/buildSrc/src/main/java/Dependencies.kt) file
 + This allows dependencies to be centrally defined, which assures that all modules are using the same versions and version-incompatibility bugs, that can be hard to find and fix, will not become a problem.
 + Since Gradle's Kotlin DSL is used, these dependency variables are "autosuggested" by the IDE, easily referenced and their usages can be easily found.
-+ Disadvantage is that Android Studio does not highlight dependencies with updates available - this can be solved by using the [Gradle Versions Plugin](https://github.com/ben-manes/gradle-versions-plugin), although user-friendliness still leaves something to be desired
++ Disadvantage is that Android Studio does not highlight dependencies with updates available - this can be solved by using the [Gradle Versions Plugin](https://github.com/ben-manes/gradle-versions-plugin), although user-friendliness still leaves something to be desired.
 
 ### Navigation
 + Compose Navigation handles navigation between screens in the [DashboardNavigation.kt](https://github.com/DanicMa/TheBeerCounter/blob/master/app/src/main/java/cz/damat/thebeercounter/scene/dashboard/DashboardNavigation.kt)
 + In case of a larger number of features (that don't require sophisticated data transfers between them) a dedicated Activity with its own NavHost could be used for each feature to better separation of code and navigation readability
 
 ### Data persistence
-+ Room is used for data persistence of all the products and history items
++ Room is used for data persistence of all the products and history items.
 + The data is accessed using a Repository and DAO pattern (e.g. [HistoryRepository](https://github.com/DanicMa/TheBeerCounter/blob/master/app/src/main/java/cz/damat/thebeercounter/repository/HistoryRepository.kt))
-+ For non-structured data persistence the DataStore would be used if the need for it arises
++ For non-structured data persistence the DataStore would be used if the need for it arises.
 
 ### Dependency injection
-+ Koin is used for dependency injection (providing the Repository, DAO and ViewModel instances)
++ Koin is used for dependency injection (providing the Repository, DAO and ViewModel instances).
+
+### Codestyle
++ [Detekt](https://github.com/detekt/detekt) (with custom-configured rules for Android/Compose) is used to improve codestyle and warn about possible code-smells and codestyle deviations.
 
 ### Networking
-+ Currently the app is not using any networking, but if the need for it arises (maybe for the blood alcohol level calculation?), Ktor would be used for making REST requests
++ Currently the app is not using any networking, but if the need for it arises (maybe for the blood alcohol level calculation?), Ktor would be used for making REST requests.

@@ -10,13 +10,13 @@ import java.util.*
  * Created by MD on 28.04.23.
  */
 
-const val ProductIdColumn = "productId"
+const val PRODUCT_ID_COLUMN = "productId"
 
 @Entity(
     foreignKeys = [ForeignKey(
         entity = Product::class,
-        parentColumns = arrayOf(Id),
-        childColumns = arrayOf(ProductIdColumn),
+        parentColumns = arrayOf(ID),
+        childColumns = arrayOf(PRODUCT_ID_COLUMN),
         onDelete = ForeignKey.CASCADE
     )]
 )
@@ -24,7 +24,7 @@ const val ProductIdColumn = "productId"
 data class HistoryItem(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
-    @ColumnInfo(name = ProductIdColumn, index = true)
+    @ColumnInfo(name = PRODUCT_ID_COLUMN, index = true)
     val productId: Int,
     val oldCount: Int,
     val newCount: Int,
@@ -32,6 +32,7 @@ data class HistoryItem(
     val type: HistoryItemType,
 )
 
+@Suppress("MagicNumber")
 enum class HistoryItemType(val id: Int) {
     ADD(1),
     RESET(2),
