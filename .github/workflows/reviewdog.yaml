@@ -1,0 +1,25 @@
+name: reviewdog
+on: [ pull_request ]
+
+jobs:
+  detekt:
+    name: Run detekt and report as comments
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+        with:	
+          fetch-depth: 1
+          ref: ${{ github.head_ref }}
+
+      - name: detekt
+        uses: alaegin/Detekt-Action@v1.23.1
+        with:
+          github_token: ${{ secrets.github_token }}
+          detekt_config: config/detekt/detekt.yml
+          fail_on_error: false
+          reviewdog_reporter: github-pr-review
+          reviewdog_filter: nofilter

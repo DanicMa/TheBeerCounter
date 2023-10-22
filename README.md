@@ -76,6 +76,7 @@ This is an Android app in which the users can count their bar consumption and av
 
 ### Codestyle
 + [Detekt](https://github.com/detekt/detekt) (with custom-configured rules for Android/Compose) is used to improve codestyle and warn about possible code-smells and codestyle deviations.
++ [Detekt Github Action](https://github.com/alaegin/Detekt-Action) and [Reviewdog Github Pull Request review comment reporter](https://github.com/reviewdog/reviewdog#reporter-github-pullrequest-review-comment--reportergithub-pr-review) are used to automatically run Detekt on every pull request and report the results as a comment in the pull request.
 
 ### Networking
 + Currently the app is not using any networking, but if the need for it arises (maybe for the blood alcohol level calculation?), Ktor would be used for making REST requests.
