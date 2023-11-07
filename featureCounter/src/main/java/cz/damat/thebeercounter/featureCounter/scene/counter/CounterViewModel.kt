@@ -61,6 +61,11 @@ class CounterScreenViewModel(
     private fun onMenuItemClick(menuItem: MenuItem, id: Int) {
         ioScope.launch {
             when (menuItem) {
+                MenuItem.Edit -> {
+                    defaultScope.launch {
+                        sendCommand(CounterCommand.OpenEdit(id))
+                    }
+                }
                 MenuItem.Reset -> {
                     productRepository.setProductCount(id, 0, HistoryItemType.RESET)
                 }

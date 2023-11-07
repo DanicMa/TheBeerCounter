@@ -18,6 +18,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import cz.damat.thebeercounter.commonUI.R
 import cz.damat.thebeercounter.commonUI.compose.component.CardThemed
 import cz.damat.thebeercounter.commonUI.compose.component.ConfirmDialog
@@ -31,6 +32,7 @@ import cz.damat.thebeercounter.featureCounter.scene.counter.dialog.AddNewProduct
 import cz.damat.thebeercounter.featureCounter.scene.counter.dialog.SetCountDialog
 import cz.damat.thebeercounter.commonUI.compose.theme.disabled
 import cz.damat.thebeercounter.commonUI.compose.utils.vibrateStrong
+import cz.damat.thebeercounter.featureCounter.scene.dashboard.RouteEdit
 import org.koin.androidx.compose.get
 import java.text.NumberFormat
 import java.util.*
@@ -40,11 +42,18 @@ import java.util.*
  * Created by MD on 23.04.23.
  */
 @Composable
-fun CounterScreen() {
+fun CounterScreen(
+    navController: NavController
+) {
     val viewModel: CounterScreenViewModel = get()
     val viewState = viewModel.collectStateWithLifecycle()
     val onEvent = viewModel.getOnEvent()
-    CommandCollector(viewModel = viewModel, onEvent)
+
+    CommandCollector(
+        viewModel,
+        navController,
+        onEvent
+    )
 
     CounterScreenContent(viewState = viewState.value, onEvent = onEvent)
 }
@@ -58,6 +67,7 @@ private fun Preview() {
 @Composable
 private fun CommandCollector(
     viewModel: CounterScreenViewModel,
+    navController: NavController,
     onEvent: OnEvent
 ) {
     val showSetCountDialogForProduct = remember {
@@ -83,6 +93,9 @@ private fun CommandCollector(
             CounterCommand.ShowAddNewDialog -> showAddNewDialog.value = true
             CounterCommand.PerformHapticFeedback -> {
                 view.vibrateStrong()
+            }
+            is CounterCommand.OpenEdit -> {
+                navController.navigate("$RouteEdit/${it.productId}")
             }
         }
     }
@@ -262,10 +275,10 @@ private fun ProductDropdown(shown: MutableState<Boolean>, product: Product, onEv
 }
 
 enum class MenuItem(@StringRes val titleRes: Int) {
+    Edit(R.string.action_edit),
     Reset(R.string.action_reset),
     Hide(R.string.action_delete),
     SetCount(R.string.action_set_count),
-    //todo - modify product item and dialog
 }
 
 @Composable
