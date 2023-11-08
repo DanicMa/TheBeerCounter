@@ -17,7 +17,7 @@ import kotlinx.coroutines.launch
 /**
  * Created by MD on 29.12.22.
  */
-abstract class BaseViewModel<STATE : ViewState, EVENT : ViewEvent, COMMAND : ViewCommand>(val initialState: STATE) : ViewModel() {
+abstract class BaseViewModel<STATE : ViewStateDTO, EVENT : ViewEvent, COMMAND : ViewCommand>(val initialState: STATE) : ViewModel() {
 
     // todo - use explicit backing fields when project is switched to Kotlin 2.0, see https://github.com/Kotlin/KEEP/blob/explicit-backing-fields-re/proposals/explicit-backing-fields.md
 
@@ -89,8 +89,10 @@ abstract class BaseViewModel<STATE : ViewState, EVENT : ViewEvent, COMMAND : Vie
     /**
      * Post a command to the UI.
      */
-    protected suspend fun sendCommand(command : COMMAND) {
-        _commandFlow.emit(command)
+    protected fun sendCommand(command : COMMAND) {
+        defaultScope.launch {
+            _commandFlow.emit(command)
+        }
     }
 
     /**

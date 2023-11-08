@@ -9,4 +9,9 @@ import cz.damat.thebeercounter.commonUI.base.ViewEvent
 internal typealias OnEvent = (EditEvent) -> Unit
 
 sealed class EditEvent : ViewEvent {
+
+    data class OnProductNameChange(val productName: String) : EditEvent()
+    data class OnProductCountChange(val productCount: Int) : EditEvent()
+    object OnBackClick : EditEvent()
+    object OnSaveClick : EditEvent()
 }

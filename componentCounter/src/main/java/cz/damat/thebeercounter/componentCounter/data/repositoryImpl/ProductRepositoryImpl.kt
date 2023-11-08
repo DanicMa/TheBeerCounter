@@ -9,7 +9,9 @@ import cz.damat.thebeercounter.commonlib.room.entity.HistoryItemType
 import cz.damat.thebeercounter.commonlib.room.entity.INITIAL_ITEM_ID
 import cz.damat.thebeercounter.commonlib.room.entity.Product
 import cz.damat.thebeercounter.componentCounter.domain.repository.ProductRepository
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.withContext
 
 
 /**
@@ -17,6 +19,10 @@ import kotlinx.coroutines.flow.first
  */
 
 class ProductRepositoryImpl(private val db: AppDatabase, private val productDao: ProductDao, private val historyItemDao: HistoryItemDao) : ProductRepository {
+
+    override suspend fun getProduct(id: Int): Product? {
+        return productDao.getProduct(id)
+    }
 
     override fun getShownProductsFlow() = productDao.getProductsFlow(true)
 
@@ -60,6 +66,26 @@ class ProductRepositoryImpl(private val db: AppDatabase, private val productDao:
                         type = type
                     )
                 )
+            }
+        }
+    }
+
+    override suspend fun updateProductNameAndSetCount(id: Int, name: String, count: Int) {
+        db.withTransaction {
+            productDao.getProduct(id)?.let { product ->
+                val oldCount = product.count
+                productDao.upsert(product.copy(name = name, count = count))
+
+                if (oldCount != count) {
+                    historyItemDao.upsert(
+                        HistoryItem(
+                            productId = id,
+                            oldCount = oldCount,
+                            newCount = count,
+                            type = HistoryItemType.MANUAL
+                        )
+                    )
+                }
             }
         }
     }

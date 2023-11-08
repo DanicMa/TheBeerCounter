@@ -8,7 +8,7 @@ import androidx.lifecycle.flowWithLifecycle
 import cz.damat.thebeercounter.commonUI.base.BaseViewModel
 import cz.damat.thebeercounter.commonUI.base.ViewCommand
 import cz.damat.thebeercounter.commonUI.base.ViewEvent
-import cz.damat.thebeercounter.commonUI.base.ViewState
+import cz.damat.thebeercounter.commonUI.base.ViewStateDTO
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -25,7 +25,7 @@ import kotlinx.coroutines.plus
  * Collects the [BaseViewModel.stateFlow] by using [collectAsStateWithLifecycle] and the [BaseViewModel.initialState].
  */
 @Composable
-fun <T : ViewState> BaseViewModel<T, *, *>.collectStateWithLifecycle(): State<T> {
+fun <T : ViewStateDTO> BaseViewModel<T, *, *>.collectStateWithLifecycle(): State<T> {
     return stateFlow.collectAsStateWithLifecycle(initialValue = this.initialState)
 }
 
