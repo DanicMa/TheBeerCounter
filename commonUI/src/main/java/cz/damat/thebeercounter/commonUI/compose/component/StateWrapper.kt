@@ -34,8 +34,7 @@ fun StateWrapper(
 }
 
 @Composable
-private fun BoxScope.Loading(
-) {
+private fun BoxScope.Loading() {
     CircularProgressIndicator(
         modifier = Modifier
             .align(Alignment.Center)

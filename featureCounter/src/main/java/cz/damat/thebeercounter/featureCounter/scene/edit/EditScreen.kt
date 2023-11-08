@@ -1,48 +1,37 @@
 package cz.damat.thebeercounter.featureCounter.scene.edit
 
-import androidx.annotation.StringRes
-import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.*
+import androidx.compose.material.Button
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.OutlinedTextField
+import androidx.compose.material.Scaffold
+import androidx.compose.material.Text
+import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material.icons.filled.MoreVert
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import cz.damat.thebeercounter.commonUI.R
-import cz.damat.thebeercounter.commonUI.compose.component.CardThemed
-import cz.damat.thebeercounter.commonUI.compose.component.ConfirmDialog
-import cz.damat.thebeercounter.commonUI.compose.component.DropdownItem
 import cz.damat.thebeercounter.commonUI.compose.component.StateWrapper
 import cz.damat.thebeercounter.commonUI.utils.Previews
 import cz.damat.thebeercounter.commonUI.utils.collectCommand
 import cz.damat.thebeercounter.commonUI.utils.collectStateWithLifecycle
 import cz.damat.thebeercounter.commonUI.utils.getOnEvent
-import cz.damat.thebeercounter.commonlib.room.entity.Product
-import cz.damat.thebeercounter.featureCounter.scene.counter.dialog.AddNewProductDialog
-import cz.damat.thebeercounter.featureCounter.scene.counter.dialog.SetCountDialog
-import cz.damat.thebeercounter.commonUI.compose.theme.disabled
-import cz.damat.thebeercounter.commonUI.compose.utils.vibrateStrong
-import org.koin.androidx.compose.get
 import org.koin.androidx.compose.getViewModel
 import org.koin.core.parameter.parametersOf
-import java.text.NumberFormat
-import java.util.*
 
 
 /**
@@ -59,7 +48,7 @@ fun EditScreen(
     val viewState = viewModel.collectStateWithLifecycle()
     val onEvent = viewModel.getOnEvent()
 
-    CommandCollector(viewModel, navController, onEvent)
+    CommandCollector(viewModel, navController)
     EditScreenContent(viewState = viewState.value, onEvent = onEvent)
 }
 
@@ -73,7 +62,6 @@ private fun Preview() {
 private fun CommandCollector(
     viewModel: EditScreenViewModel,
     navController: NavController,
-    onEvent: OnEvent
 ) {
     viewModel.collectCommand(block = { command ->
         when (command) {
@@ -154,5 +142,4 @@ fun EditForm(
             }
         )
     }
-
 }
