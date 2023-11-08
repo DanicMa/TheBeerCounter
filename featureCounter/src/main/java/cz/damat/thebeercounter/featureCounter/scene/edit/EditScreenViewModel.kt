@@ -36,7 +36,7 @@ class EditScreenViewModel(
                 updateState {
                     copy(
                         productName = product.name,
-                        productCount = product.count,
+                        productCount = product.count.toString(),
                         state = State.Content
                     )
                 }
@@ -62,7 +62,7 @@ class EditScreenViewModel(
                 productRepository.updateProductNameAndSetCount(
                     productId,
                     it.productName,
-                    it.productCount
+                    it.productCount.toIntOrNull() ?: 0 //todo validations
                 )
 
                 updateState { copy(state = State.Content) }

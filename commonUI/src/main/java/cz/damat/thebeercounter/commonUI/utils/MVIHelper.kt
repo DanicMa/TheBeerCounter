@@ -10,6 +10,7 @@ import cz.damat.thebeercounter.commonUI.base.ViewCommand
 import cz.damat.thebeercounter.commonUI.base.ViewEvent
 import cz.damat.thebeercounter.commonUI.base.ViewStateDTO
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.consumeAsFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -58,9 +59,7 @@ fun <T : ViewCommand> BaseViewModel<*, *, T>.collectCommand(
 ) {
     val lifecycleOwner = LocalLifecycleOwner.current
 
-    LaunchedEffect(key1 = Unit) {
-        // unchanging key makes sure that the collection is started only once
-
+    LaunchedEffect(lifecycleOwner.lifecycle, commandFlow) {
         commandFlow.flowWithLifecycle(lifecycleOwner.lifecycle, Lifecycle.State.STARTED)
             .onEach(block) // since the command flow in not a StateFlow the block is called only at the time something is posted to the flow.
             .launchIn(this + baseCoroutineExceptionHandler)

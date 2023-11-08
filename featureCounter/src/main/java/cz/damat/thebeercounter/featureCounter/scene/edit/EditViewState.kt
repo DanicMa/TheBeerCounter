@@ -10,5 +10,5 @@ import cz.damat.thebeercounter.commonUI.base.State
 data class EditViewState(
     val state : State = State.Loading,
     val productName: String = "",
-    val productCount: Int = 1,
+    val productCount: String = "",
 ) : ViewStateDTO

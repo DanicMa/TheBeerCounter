@@ -7,11 +7,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.consumeAsFlow
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 
 /**
@@ -29,8 +28,8 @@ abstract class BaseViewModel<STATE : ViewStateDTO, EVENT : ViewEvent, COMMAND : 
     val eventChannel = Channel<EVENT>(Channel.UNLIMITED)
 
     // For handling commands from VM to UI
-    private val _commandFlow = MutableSharedFlow<COMMAND>()
-    val commandFlow: Flow<COMMAND> = _commandFlow.asSharedFlow()
+    private val commandChannel = Channel<COMMAND>()
+    val commandFlow: Flow<COMMAND> = commandChannel.receiveAsFlow()
 
     /**
      * This is the job for all coroutines started by this ViewModel.
@@ -91,7 +90,7 @@ abstract class BaseViewModel<STATE : ViewStateDTO, EVENT : ViewEvent, COMMAND : 
      */
     protected fun sendCommand(command : COMMAND) {
         defaultScope.launch {
-            _commandFlow.emit(command)
+            commandChannel.send(command)
         }
     }
 

@@ -123,7 +123,7 @@ private fun EditScreenContent(
 @Composable
 fun EditForm(
     productName: String,
-    productCount: Int,
+    productCount: String,
     onEvent: OnEvent
 ) {
     Column(
@@ -139,10 +139,10 @@ fun EditForm(
 
         OutlinedTextField(
             modifier = Modifier.fillMaxWidth(),
-            value = productCount.toString(),
+            value = productCount,
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number, imeAction = ImeAction.Done),
-            onValueChange = { count ->
-                count.toIntOrNull()?.let { onEvent(EditEvent.OnProductCountChange(it)) }
+            onValueChange = {
+                 onEvent(EditEvent.OnProductCountChange(it))
             }
         )
 
