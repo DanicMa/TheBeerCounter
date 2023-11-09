@@ -20,7 +20,7 @@ import kotlinx.coroutines.launch
  * e.g. has to be in the same box as the button opening the dropdown
  */
 @Composable
-fun DropdownMenu(
+fun TBCDropdownMenu(
     dropdownShown: MutableState<Boolean>,
     scaffoldState: ScaffoldState?,
     items: List<DropdownItem>

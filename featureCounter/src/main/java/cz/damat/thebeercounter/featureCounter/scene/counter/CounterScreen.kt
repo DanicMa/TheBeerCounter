@@ -20,9 +20,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import cz.damat.thebeercounter.commonUI.R
-import cz.damat.thebeercounter.commonUI.compose.component.CardThemed
+import cz.damat.thebeercounter.commonUI.compose.component.TBCCard
 import cz.damat.thebeercounter.commonUI.compose.component.ConfirmDialog
 import cz.damat.thebeercounter.commonUI.compose.component.DropdownItem
+import cz.damat.thebeercounter.commonUI.compose.component.TBCDropdownMenu
 import cz.damat.thebeercounter.commonUI.utils.Previews
 import cz.damat.thebeercounter.commonUI.utils.collectCommand
 import cz.damat.thebeercounter.commonUI.utils.collectStateWithLifecycle
@@ -194,7 +195,7 @@ private fun CounterItem(
         mutableStateOf(false)
     }
 
-    CardThemed(
+    TBCCard(
         modifier = Modifier
             .fillMaxWidth(),
         borderColor = Color.White,
@@ -271,7 +272,7 @@ private fun ProductDropdown(shown: MutableState<Boolean>, product: Product, onEv
             }
         )
     }
-    cz.damat.thebeercounter.commonUI.compose.component.DropdownMenu(dropdownShown = shown, scaffoldState = null, items = dropdownItems)
+    TBCDropdownMenu(dropdownShown = shown, scaffoldState = null, items = dropdownItems)
 }
 
 enum class MenuItem(@StringRes val titleRes: Int) {

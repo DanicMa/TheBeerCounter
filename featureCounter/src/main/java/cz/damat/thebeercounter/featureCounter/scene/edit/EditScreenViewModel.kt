@@ -17,8 +17,6 @@ class EditScreenViewModel(
 
     init {
         ioScope.launch {
-            delay(3000) //todo delete after debug
-
             val product = productRepository.getProduct(productId)
 
             if (product == null) {
@@ -49,7 +47,6 @@ class EditScreenViewModel(
             ioScope.launch {
                 updateState { copy(state = State.Loading) }
 
-                delay(3000) //todo delete after debug
                 productRepository.updateProductNameAndSetCount(
                     productId,
                     it.productName,

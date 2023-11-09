@@ -12,6 +12,7 @@
     <string name="action_set">Set</string>
     <string name="action_clear_all">Clear all</string>
     <string name="action_add">Add</string>
+    <string name="action_remove">Remove</string>
 
     <string name="count">Count</string>
     <string name="your_tab">Your tab:</string>

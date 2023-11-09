@@ -1,35 +1,50 @@
 package cz.damat.thebeercounter.featureCounter.scene.edit
 
+import android.widget.Space
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeContentPadding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Button
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
-import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import cz.damat.thebeercounter.commonUI.R
-import cz.damat.thebeercounter.commonUI.compose.component.StateWrapper
+import cz.damat.thebeercounter.commonUI.compose.component.TBCButton
+import cz.damat.thebeercounter.commonUI.compose.component.TBCStateWrapper
+import cz.damat.thebeercounter.commonUI.compose.component.TBCTextField
 import cz.damat.thebeercounter.commonUI.utils.Previews
 import cz.damat.thebeercounter.commonUI.utils.collectCommand
 import cz.damat.thebeercounter.commonUI.utils.collectStateWithLifecycle
 import cz.damat.thebeercounter.commonUI.utils.getOnEvent
+import cz.damat.thebeercounter.featureCounter.scene.counter.CounterEvent
 import org.koin.androidx.compose.getViewModel
 import org.koin.core.parameter.parametersOf
 
@@ -94,7 +109,7 @@ private fun EditScreenContent(
             )
         }
     ) { paddingValues ->
-        StateWrapper(
+        TBCStateWrapper(
             modifier = Modifier
                 .padding(paddingValues)
                 .fillMaxSize(), state = viewState.state
@@ -115,31 +130,81 @@ fun EditForm(
     onEvent: OnEvent
 ) {
     Column(
-        modifier = Modifier.padding(16.dp),
+        modifier = Modifier
+            .padding(16.dp)
+            .safeContentPadding()
+            .fillMaxHeight()
+            .verticalScroll(rememberScrollState()),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        OutlinedTextField(
+        TBCTextField(
             modifier = Modifier.fillMaxWidth(),
+            label = stringResource(id = R.string.name),
             value = productName,
-            onValueChange = { name -> onEvent(EditEvent.OnProductNameChange(name)) }
+            onValueChanged = { name -> onEvent(EditEvent.OnProductNameChange(name)) }
         )
 
-        OutlinedTextField(
+        TBCTextField(
             modifier = Modifier.fillMaxWidth(),
+            label = stringResource(id = R.string.count),
             value = productCount,
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number, imeAction = ImeAction.Done),
-            onValueChange = {
-                 onEvent(EditEvent.OnProductCountChange(it))
+            trailingIcon = {
+                Row {
+                    RemoveAddButton(add = false, productCount = productCount, onEvent = onEvent)
+                    RemoveAddButton(add = true, productCount = productCount, onEvent = onEvent)
+                    Spacer(modifier = Modifier.width(8.dp))
+                }
+            },
+            onValueChanged = {
+                onEvent(EditEvent.OnProductCountChange(it))
             }
         )
 
-        Button(
+        Spacer(modifier = Modifier.weight(1f))
+
+        TBCButton(
             modifier = Modifier.fillMaxWidth(),
-            onClick = { onEvent(EditEvent.OnSaveClick) },
-            content = {
-                Text(text = stringResource(id = R.string.ok))
+            text = stringResource(id = R.string.ok),
+            enabled = productName.isNotBlank(),
+            onClick = { onEvent(EditEvent.OnSaveClick) }
+        )
+    }
+}
+
+@Composable
+fun RemoveAddButton(
+    add: Boolean,
+    productCount: String,
+    onEvent: OnEvent,
+) {
+    IconButton(
+        modifier = Modifier.fillMaxHeight(),
+        onClick = {
+            productCount.toIntOrNull()?.let {
+                onEvent(EditEvent.OnProductCountChange((if (add) it + 1 else it - 1).toString()))
             }
+        }
+    ) {
+        val imageVector = if (add) {
+            Icons.Default.Add
+        } else {
+            ImageVector.vectorResource(id = R.drawable.ic_remove_24)
+        }
+
+        val contentDescription = stringResource(
+            id = if (add) {
+                R.string.action_add
+            } else {
+                R.string.action_remove
+            }
+        )
+
+        Icon(
+            imageVector = imageVector,
+            tint = MaterialTheme.colors.onSurface,
+            contentDescription = contentDescription
         )
     }
 }
