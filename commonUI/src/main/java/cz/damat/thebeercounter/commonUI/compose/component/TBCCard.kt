@@ -15,7 +15,7 @@ import androidx.compose.ui.unit.dp
  * Created by MD on 28.04.23.
  */
 @Composable
-fun CardThemed(
+fun TBCCard(
     modifier: Modifier = Modifier,
     backgroundColor: Color = MaterialTheme.colors.surface,
     borderColor: Color? = null,

@@ -17,7 +17,7 @@ import cz.damat.thebeercounter.commonUI.base.State
  * Created by MD on 08.11.23.
  */
 @Composable
-fun StateWrapper(
+fun TBCStateWrapper(
     modifier: Modifier = Modifier,
     state: State,
     customLoading: @Composable (BoxScope.() -> Unit)? = null,
