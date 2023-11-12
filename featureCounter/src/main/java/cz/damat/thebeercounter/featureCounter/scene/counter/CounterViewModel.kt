@@ -61,6 +61,9 @@ class CounterScreenViewModel(
     private fun onMenuItemClick(menuItem: MenuItem, id: Int) {
         ioScope.launch {
             when (menuItem) {
+                MenuItem.Edit -> {
+                    sendCommand(CounterCommand.OpenEdit(id))
+                }
                 MenuItem.Reset -> {
                     productRepository.setProductCount(id, 0, HistoryItemType.RESET)
                 }
@@ -69,9 +72,7 @@ class CounterScreenViewModel(
                 }
                 MenuItem.SetCount -> {
                     currentState().products?.firstOrNull { it.id == id }?.let {
-                        defaultScope.launch {
-                            sendCommand(CounterCommand.ShowSetCountDialog(it))
-                        }
+                        sendCommand(CounterCommand.ShowSetCountDialog(it))
                     }
                 }
             }
@@ -85,9 +86,7 @@ class CounterScreenViewModel(
     }
 
     private fun onClearAllClicked() {
-        defaultScope.launch {
-            sendCommand(CounterCommand.ShowClearAllConfirmDialog)
-        }
+        sendCommand(CounterCommand.ShowClearAllConfirmDialog)
     }
 
     private fun onClearAllConfirmed() {

@@ -1,7 +1,7 @@
 package cz.damat.thebeercounter.featureCounter.scene.history
 
 import androidx.compose.runtime.Immutable
-import cz.damat.thebeercounter.commonUI.base.ViewState
+import cz.damat.thebeercounter.commonUI.base.ViewStateDTO
 import cz.damat.thebeercounter.componentCounter.data.dto.HistoryProduct
 import kotlinx.collections.immutable.ImmutableList
 import java.time.LocalDate
@@ -12,7 +12,7 @@ import java.time.LocalDate
  */
 data class HistoryViewState(
     val items : ImmutableList<DayToHistoryDTO>? = null,
-) : ViewState
+) : ViewStateDTO
 
 @Immutable
 data class DayToHistoryDTO(

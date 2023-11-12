@@ -11,21 +11,26 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import cz.damat.thebeercounter.commonUI.R
 import cz.damat.thebeercounter.featureCounter.scene.counter.CounterScreen
 import cz.damat.thebeercounter.featureCounter.scene.history.HistoryScreen
 import cz.damat.thebeercounter.commonUI.compose.theme.medium
+import cz.damat.thebeercounter.featureCounter.scene.edit.EditScreen
 
 /**
  * Created by MD on 23.04.23.
@@ -40,7 +45,17 @@ fun DashboardNavigation() {
             NavigationHost(navController, it, DashboardNavigationItem.Counter.route)
         },
         bottomBar = {
-            BottomBar(navController)
+            val currentBackStackEntry by navController.currentBackStackEntryAsState()
+            val hasBottomBar by remember {
+                derivedStateOf {
+                    val currentRoute = currentBackStackEntry?.destination?.route
+                    DashboardNavigationItem.values().any { it.route == currentRoute }
+                }
+            }
+
+            if (hasBottomBar) {
+                BottomBar(navController)
+            }
         }
     )
 }
@@ -55,10 +70,23 @@ private fun NavigationHost(navController: NavHostController, paddingValues: Padd
         DashboardNavigationItem.values().forEach { navigationItem ->
             composable(navigationItem.route) {
                 when (navigationItem) {
-                    DashboardNavigationItem.Counter -> CounterScreen()
+                    DashboardNavigationItem.Counter -> CounterScreen(navController)
                     DashboardNavigationItem.History -> HistoryScreen()
                     //todo - finish the "more" screen
                     DashboardNavigationItem.More -> Text(text = "Not yet implemented. Some settings will be here, maybe some statistics and other stuff?")
+                }
+            }
+
+            composable(
+                route = "$RouteEdit/{$RouteArgId}",
+                arguments = listOf(
+                    navArgument(RouteArgId) {
+                        type = NavType.IntType
+                    },
+                )
+            ) { entry ->
+                entry.arguments?.getInt(RouteArgId)?.let {
+                    EditScreen(navController = navController, productId = it)
                 }
             }
         }
@@ -114,10 +142,13 @@ private enum class DashboardNavigationItem(
 
     @Composable
     fun getVectorResource(): ImageVector {
-        return when(this) {
-            Counter -> ImageVector.vectorResource(id = cz.damat.thebeercounter.commonUI.R.drawable.ic_tally_24)
+        return when (this) {
+            Counter -> ImageVector.vectorResource(id = R.drawable.ic_tally_24)
             History -> Icons.Default.List
             More -> Icons.Default.MoreVert
         }
     }
 }
+
+const val RouteEdit = "edit"
+const val RouteArgId = "id"

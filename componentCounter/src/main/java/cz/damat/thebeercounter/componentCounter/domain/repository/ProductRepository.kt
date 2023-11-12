@@ -12,6 +12,8 @@ import org.koin.core.component.KoinComponent
 
 interface ProductRepository : KoinComponent {
 
+    suspend fun getProduct(id: Int): Product?
+
     fun getShownProductsFlow(): Flow<List<Product>>
 
     //todo - use for allowing the user to delete currently not shown products
@@ -22,6 +24,8 @@ interface ProductRepository : KoinComponent {
     suspend fun incrementProductCount(id: Int)
 
     suspend fun setProductCount(id: Int, count: Int, type: HistoryItemType)
+
+    suspend fun updateProductNameAndSetCount(id: Int, name: String, count: Int)
 
     suspend fun hideProduct(id: Int)
 

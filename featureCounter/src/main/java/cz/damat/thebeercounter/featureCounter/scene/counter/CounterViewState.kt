@@ -1,6 +1,6 @@
 package cz.damat.thebeercounter.featureCounter.scene.counter
 
-import cz.damat.thebeercounter.commonUI.base.ViewState
+import cz.damat.thebeercounter.commonUI.base.ViewStateDTO
 import cz.damat.thebeercounter.commonlib.room.entity.Product
 import kotlinx.collections.immutable.ImmutableList
 
@@ -10,4 +10,4 @@ import kotlinx.collections.immutable.ImmutableList
  */
 data class CounterViewState(
     val products : ImmutableList<Product>? = null
-) : ViewState
+) : ViewStateDTO

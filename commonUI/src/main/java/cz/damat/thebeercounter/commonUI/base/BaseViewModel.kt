@@ -7,17 +7,16 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.consumeAsFlow
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 
 /**
  * Created by MD on 29.12.22.
  */
-abstract class BaseViewModel<STATE : ViewState, EVENT : ViewEvent, COMMAND : ViewCommand>(val initialState: STATE) : ViewModel() {
+abstract class BaseViewModel<STATE : ViewStateDTO, EVENT : ViewEvent, COMMAND : ViewCommand>(val initialState: STATE) : ViewModel() {
 
     // todo - use explicit backing fields when project is switched to Kotlin 2.0, see https://github.com/Kotlin/KEEP/blob/explicit-backing-fields-re/proposals/explicit-backing-fields.md
 
@@ -29,8 +28,8 @@ abstract class BaseViewModel<STATE : ViewState, EVENT : ViewEvent, COMMAND : Vie
     val eventChannel = Channel<EVENT>(Channel.UNLIMITED)
 
     // For handling commands from VM to UI
-    private val _commandFlow = MutableSharedFlow<COMMAND>()
-    val commandFlow: Flow<COMMAND> = _commandFlow.asSharedFlow()
+    private val commandChannel = Channel<COMMAND>()
+    val commandFlow: Flow<COMMAND> = commandChannel.receiveAsFlow()
 
     /**
      * This is the job for all coroutines started by this ViewModel.
@@ -89,8 +88,10 @@ abstract class BaseViewModel<STATE : ViewState, EVENT : ViewEvent, COMMAND : Vie
     /**
      * Post a command to the UI.
      */
-    protected suspend fun sendCommand(command : COMMAND) {
-        _commandFlow.emit(command)
+    protected fun sendCommand(command : COMMAND) {
+        defaultScope.launch {
+            commandChannel.send(command)
+        }
     }
 
     /**

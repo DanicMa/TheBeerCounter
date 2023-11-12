@@ -13,4 +13,5 @@ sealed class CounterCommand : ViewCommand {
     object ShowAddNewDialog : CounterCommand()
     object PerformHapticFeedback : CounterCommand()
     data class ShowSetCountDialog(val product: Product) : CounterCommand()
+    data class OpenEdit(val productId: Int) : CounterCommand()
 }
