@@ -29,10 +29,10 @@ import cz.damat.thebeercounter.commonUI.utils.collectCommand
 import cz.damat.thebeercounter.commonUI.utils.collectStateWithLifecycle
 import cz.damat.thebeercounter.commonUI.utils.getOnEvent
 import cz.damat.thebeercounter.commonlib.room.entity.Product
-import cz.damat.thebeercounter.featureCounter.scene.counter.dialog.AddNewProductDialog
 import cz.damat.thebeercounter.featureCounter.scene.counter.dialog.SetCountDialog
 import cz.damat.thebeercounter.commonUI.compose.theme.disabled
 import cz.damat.thebeercounter.commonUI.compose.utils.vibrateStrong
+import cz.damat.thebeercounter.featureCounter.scene.dashboard.RouteArgId
 import cz.damat.thebeercounter.featureCounter.scene.dashboard.RouteEdit
 import org.koin.androidx.compose.get
 import java.text.NumberFormat
@@ -79,10 +79,6 @@ private fun CommandCollector(
         mutableStateOf(false)
     }
 
-    val showAddNewDialog = remember {
-        mutableStateOf(false)
-    }
-
     val view = LocalView.current
 
     viewModel.collectCommand {
@@ -91,9 +87,12 @@ private fun CommandCollector(
                 showSetCountDialogForProduct.value = it.product
             }
             CounterCommand.ShowClearAllConfirmDialog -> showClearAllConfirmDialog.value = true
-            CounterCommand.ShowAddNewDialog -> showAddNewDialog.value = true
             CounterCommand.PerformHapticFeedback -> {
                 view.vibrateStrong()
+            }
+            CounterCommand.OpenAdd -> {
+                navController.navigate("$RouteEdit/-1")
+
             }
             is CounterCommand.OpenEdit -> {
                 navController.navigate("$RouteEdit/${it.productId}")
@@ -109,13 +108,6 @@ private fun CommandCollector(
     ClearAllConfirmDialog(
         showDialog = showClearAllConfirmDialog,
         onEvent = onEvent
-    )
-
-    AddNewProductDialog(
-        showDialog = showAddNewDialog,
-        onNewProductCreated = {
-            onEvent(CounterEvent.OnNewProductAdded(it))
-        }
     )
 }
 

@@ -9,6 +9,10 @@ import cz.damat.thebeercounter.commonUI.base.State
  */
 data class EditViewState(
     val state : State = State.Loading,
+    val isForAdding : Boolean,
     val productName: String = "",
     val productCount: String = "",
-) : ViewStateDTO
+) : ViewStateDTO {
+    val isSaveButtonEnabled: Boolean
+        get() = productName.isNotBlank()
+}

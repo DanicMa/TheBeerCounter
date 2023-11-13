@@ -27,6 +27,7 @@
     <string name="name">Name</string>
     <string name="beer">Beer</string>
     <string name="clear_all_confirm_message">Do you really want to delete all items?</string>
+    <string name="add_product">Add product</string>
     <string name="edit_product">Edit product</string>
     <string name="error_product_not_found">Product not found</string>
 </resources>

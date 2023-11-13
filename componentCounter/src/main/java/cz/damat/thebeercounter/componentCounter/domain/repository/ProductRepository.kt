@@ -19,7 +19,7 @@ interface ProductRepository : KoinComponent {
     //todo - use for allowing the user to delete currently not shown products
     fun getNotShownProductsFlow(): Flow<List<Product>>
 
-    suspend fun saveProductAndIncrementCount(product: Product)
+    suspend fun saveProduct(product: Product)
 
     suspend fun incrementProductCount(id: Int)
 
