@@ -10,7 +10,7 @@ import cz.damat.thebeercounter.commonlib.room.entity.Product
 sealed class CounterCommand : ViewCommand {
 
     object ShowClearAllConfirmDialog : CounterCommand()
-    object ShowAddNewDialog : CounterCommand()
+    object OpenAdd : CounterCommand()
     object PerformHapticFeedback : CounterCommand()
     data class ShowSetCountDialog(val product: Product) : CounterCommand()
     data class OpenEdit(val productId: Int) : CounterCommand()

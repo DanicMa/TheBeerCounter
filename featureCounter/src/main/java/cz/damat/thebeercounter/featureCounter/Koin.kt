@@ -16,7 +16,7 @@ val featureCounterKoinModule = module {
         CounterScreenViewModel(get(), androidApplication().resources)
     }
 
-    viewModel { (productId: Int) ->
+    viewModel { (productId: Int?) ->
         EditScreenViewModel(productId, get())
     }
 

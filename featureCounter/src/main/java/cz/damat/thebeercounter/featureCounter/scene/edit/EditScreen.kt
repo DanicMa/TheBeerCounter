@@ -33,6 +33,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -55,7 +56,7 @@ import org.koin.core.parameter.parametersOf
 @Composable
 fun EditScreen(
     navController: NavController,
-    productId: Int,
+    productId: Int?,
 ) {
     val viewModel: EditScreenViewModel = getViewModel() {
         parametersOf(productId)
@@ -142,6 +143,8 @@ fun EditForm(
             modifier = Modifier.fillMaxWidth(),
             label = stringResource(id = R.string.name),
             value = productName,
+            hasNextDownImeAction = true,
+            keyboardOptions = KeyboardOptions(capitalization = KeyboardCapitalization.Sentences),
             onValueChanged = { name -> onEvent(EditEvent.OnProductNameChange(name)) }
         )
 

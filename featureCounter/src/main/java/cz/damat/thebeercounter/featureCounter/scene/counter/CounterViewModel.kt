@@ -47,7 +47,6 @@ class CounterScreenViewModel(
             CounterEvent.OnClearAllClicked -> onClearAllClicked()
             CounterEvent.OnClearAllConfirmed -> onClearAllConfirmed()
             CounterEvent.OnAddNewClicked -> onAddNewClicked()
-            is CounterEvent.OnNewProductAdded -> onNewProductAdded(event.name)
         }
     }
 
@@ -98,19 +97,7 @@ class CounterScreenViewModel(
     private fun onAddNewClicked() {
         ioScope.launch {
             productRepository.getShownProductsFlow()
-            sendCommand(CounterCommand.ShowAddNewDialog)
-        }
-    }
-
-    private fun onNewProductAdded(name: String) {
-        ioScope.launch {
-            val product = Product(
-                name = name,
-                count = 0,
-                shown = true,
-                price = null,
-            )
-            productRepository.saveProductAndIncrementCount(product)
+            sendCommand(CounterCommand.OpenAdd)
         }
     }
 }

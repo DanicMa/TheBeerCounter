@@ -85,9 +85,8 @@ private fun NavigationHost(navController: NavHostController, paddingValues: Padd
                     },
                 )
             ) { entry ->
-                entry.arguments?.getInt(RouteArgId)?.let {
-                    EditScreen(navController = navController, productId = it)
-                }
+                val productId = entry.arguments?.getInt(RouteArgId)?.takeIf { it > 0 }
+                EditScreen(navController = navController, productId = productId)
             }
         }
     }
