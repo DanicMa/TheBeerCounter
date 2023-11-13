@@ -9,9 +9,7 @@ import cz.damat.thebeercounter.commonlib.room.entity.HistoryItemType
 import cz.damat.thebeercounter.commonlib.room.entity.INITIAL_ITEM_ID
 import cz.damat.thebeercounter.commonlib.room.entity.Product
 import cz.damat.thebeercounter.componentCounter.domain.repository.ProductRepository
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.withContext
 
 
 /**
@@ -29,11 +27,8 @@ class ProductRepositoryImpl(private val db: AppDatabase, private val productDao:
     //todo - use for allowing the user to delete currently not shown products
     override fun getNotShownProductsFlow() = productDao.getProductsFlow(false)
 
-    override suspend fun saveProductAndIncrementCount(product: Product) {
-        db.withTransaction {
-            val newProductId = productDao.upsert(product)
-            incrementProductCount(newProductId.toInt())
-        }
+    override suspend fun saveProduct(product: Product) {
+        productDao.upsert(product)
     }
 
     override suspend fun incrementProductCount(id: Int) {

@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeContentPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Button
@@ -27,9 +28,15 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusDirection
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.input.ImeAction
@@ -71,7 +78,7 @@ fun EditScreen(
 @Previews
 @Composable
 private fun Preview() {
-    EditScreenContent(viewState = EditViewState(), onEvent = {})
+    EditScreenContent(viewState = EditViewState(isForAdding = false), onEvent = {})
 }
 
 @Composable
@@ -97,7 +104,7 @@ private fun EditScreenContent(
             TopAppBar(
                 backgroundColor = MaterialTheme.colors.background,
                 title = {
-                    Text(text = stringResource(id = R.string.edit_product))
+                    Text(text = stringResource(id = if (viewState.isForAdding) R.string.add_product else R.string.edit_product))
                 },
                 navigationIcon = {
                     IconButton(onClick = { onEvent(EditEvent.OnBackClick) }) {
@@ -116,8 +123,10 @@ private fun EditScreenContent(
                 .fillMaxSize(), state = viewState.state
         ) {
             EditForm(
+                isForAdding = viewState.isForAdding,
                 productName = viewState.productName,
                 productCount = viewState.productCount,
+                isSaveButtonEnabled = viewState.isSaveButtonEnabled,
                 onEvent = onEvent
             )
         }
@@ -126,8 +135,10 @@ private fun EditScreenContent(
 
 @Composable
 fun EditForm(
+    isForAdding: Boolean,
     productName: String,
     productCount: String,
+    isSaveButtonEnabled: Boolean,
     onEvent: OnEvent
 ) {
     Column(
@@ -139,8 +150,13 @@ fun EditForm(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
+        val focusRequester = remember { FocusRequester() }
+        val focusManager = LocalFocusManager.current
+
         TBCTextField(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .focusRequester(focusRequester),
             label = stringResource(id = R.string.name),
             value = productName,
             hasNextDownImeAction = true,
@@ -148,11 +164,23 @@ fun EditForm(
             onValueChanged = { name -> onEvent(EditEvent.OnProductNameChange(name)) }
         )
 
+        LaunchedEffect(Unit) {
+            if (isForAdding) {
+                focusRequester.requestFocus()
+            }
+        }
+
         TBCTextField(
             modifier = Modifier.fillMaxWidth(),
             label = stringResource(id = R.string.count),
             value = productCount,
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number, imeAction = ImeAction.Done),
+            keyboardActions = KeyboardActions(
+                onDone = {
+                    focusManager.clearFocus()
+                    onEvent(EditEvent.OnSaveClick)
+                }
+            ),
             trailingIcon = {
                 Row {
                     RemoveAddButton(add = false, productCount = productCount, onEvent = onEvent)
@@ -170,7 +198,7 @@ fun EditForm(
         TBCButton(
             modifier = Modifier.fillMaxWidth(),
             text = stringResource(id = R.string.ok),
-            enabled = productName.isNotBlank(),
+            enabled = isSaveButtonEnabled,
             onClick = { onEvent(EditEvent.OnSaveClick) }
         )
     }

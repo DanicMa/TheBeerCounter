@@ -5,7 +5,6 @@ import cz.damat.thebeercounter.commonUI.base.BaseViewModel
 import cz.damat.thebeercounter.commonUI.base.State
 import cz.damat.thebeercounter.commonlib.room.entity.Product
 import cz.damat.thebeercounter.componentCounter.domain.repository.ProductRepository
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 /**
@@ -14,7 +13,7 @@ import kotlinx.coroutines.launch
 class EditScreenViewModel(
     private val productId: Int?,
     private val productRepository: ProductRepository,
-) : BaseViewModel<EditViewState, EditEvent, EditCommand>(EditViewState()) {
+) : BaseViewModel<EditViewState, EditEvent, EditCommand>(EditViewState(isForAdding = productId == null)) {
 
     init {
         ioScope.launch {
@@ -53,26 +52,27 @@ class EditScreenViewModel(
     }
 
     private fun save() {
-        currentState().let {
+        currentState().let { state ->
+            if (!state.isSaveButtonEnabled) {
+                return
+            }
             ioScope.launch {
                 updateState { copy(state = State.Loading) }
-
-                val count = it.productCount.toIntOrNull() ?: 0 // todo validations
 
                 if (productId != null) {
                     productRepository.updateProductNameAndSetCount(
                         productId,
-                        it.productName,
-                        count
+                        state.productName,
+                        state.productCount.toIntOrNull() ?: 0
                     )
                 } else {
                     val product = Product(
-                        name = it.productName,
-                        count = count,
+                        name = state.productName,
+                        count = state.productCount.toIntOrNull() ?: 1,
                         shown = true,
                         price = null,
                     )
-                    productRepository.saveProductAndIncrementCount(product)
+                    productRepository.saveProduct(product)
                 }
 
                 updateState { copy(state = State.Content) }
