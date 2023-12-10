@@ -16,7 +16,7 @@ class EditScreenViewModel(
 ) : BaseViewModel<EditViewState, EditEvent, EditCommand>(EditViewState(isForAdding = productId == null)) {
 
     init {
-        ioScope.launch {
+        launch {
             if (productId != null) {
                 val product = productRepository.getProduct(productId)
 
@@ -56,7 +56,7 @@ class EditScreenViewModel(
             if (!state.isSaveButtonEnabled) {
                 return
             }
-            ioScope.launch {
+            launch {
                 updateState { copy(state = State.Loading) }
 
                 if (productId != null) {

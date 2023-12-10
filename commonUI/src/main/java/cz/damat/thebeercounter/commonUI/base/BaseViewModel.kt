@@ -1,17 +1,25 @@
 package cz.damat.thebeercounter.commonUI.base
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import cz.damat.thebeercounter.commonUI.utils.baseCoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.CoroutineStart
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.consumeAsFlow
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
+import kotlin.coroutines.CoroutineContext
+import kotlin.coroutines.EmptyCoroutineContext
 
 /**
  * Created by MD on 29.12.22.
@@ -31,52 +39,34 @@ abstract class BaseViewModel<STATE : ViewStateDTO, EVENT : ViewEvent, COMMAND : 
     private val commandChannel = Channel<COMMAND>()
     val commandFlow: Flow<COMMAND> = commandChannel.receiveAsFlow()
 
-    /**
-     * This is the job for all coroutines started by this ViewModel.
-     * Cancelling this job will cancel all coroutines started by this ViewModel.
-     */
-    private val viewModelSupervisorJob = SupervisorJob()
-
-    /**
-     * For running coroutines on the main thread. Use only for UI related work.
-     */
-    protected val uiScope = CoroutineScope(Dispatchers.Main + viewModelSupervisorJob + baseCoroutineExceptionHandler)
-
-    /**
-     * For performing background work like DB access/network calls/...
-     * Use only for non-UI related work.
-     */
-    protected val ioScope = CoroutineScope(Dispatchers.IO + viewModelSupervisorJob + baseCoroutineExceptionHandler)
-
-    /**
-     * Optimized for CPU intensive work like sorting/filtering/parsing...
-     */
-    protected val defaultScope = CoroutineScope(Dispatchers.Default + viewModelSupervisorJob + baseCoroutineExceptionHandler)
+    protected val viewModelScopeExHandled = CoroutineScope(Dispatchers.Main.immediate + SupervisorJob() + baseCoroutineExceptionHandler)
 
     init {
-        defaultScope.launch {
-            eventChannel.consumeAsFlow().collect {
-                onEvent(it)
-            }
-        }
+        eventChannel.consumeAsFlow().onEach {
+            onEvent(it)
+        }.launchIn(viewModelScopeExHandled)
+    }
+
+    protected fun BaseViewModel<STATE, EVENT, COMMAND>.launch(
+        context: CoroutineContext = EmptyCoroutineContext,
+        start: CoroutineStart = CoroutineStart.DEFAULT,
+        block: suspend CoroutineScope.() -> Unit
+    ): Job {
+        return viewModelScopeExHandled.launch(context, start, block)
     }
 
     /**
      * Gets the current view state.
      */
     protected fun currentState(): STATE {
-        synchronized(_stateFlow) {
-            return _stateFlow.value
-        }
+        return _stateFlow.value
     }
 
     /**
      * Updates view state with a new value.
      */
     protected fun updateState(body: STATE.() -> STATE) {
-        synchronized(_stateFlow) {
-            _stateFlow.value = body(_stateFlow.value)
-        }
+        _stateFlow.value = body(_stateFlow.value)
     }
 
     /**
@@ -88,17 +78,17 @@ abstract class BaseViewModel<STATE : ViewStateDTO, EVENT : ViewEvent, COMMAND : 
     /**
      * Post a command to the UI.
      */
-    protected fun sendCommand(command : COMMAND) {
-        defaultScope.launch {
+    protected fun sendCommand(command: COMMAND) {
+        launch {
             commandChannel.send(command)
         }
     }
 
     /**
-     * Cancel all coroutines when the ViewModel is cleared
+     * Cancel our custom-handled coroutine when clearing the viewModel
      */
     override fun onCleared() {
         super.onCleared()
-        viewModelSupervisorJob.cancel() //canceling the supervisor cancels all child scopes
+        viewModelScopeExHandled.cancel()
     }
 }
