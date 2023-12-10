@@ -6,12 +6,15 @@ import cz.damat.thebeercounter.commonUI.R
 import cz.damat.thebeercounter.commonUI.base.BaseViewModel
 import cz.damat.thebeercounter.componentCounter.domain.repository.ProductRepository
 import cz.damat.thebeercounter.commonlib.room.entity.HistoryItemType
-import cz.damat.thebeercounter.commonlib.room.entity.Product
 import kotlinx.collections.immutable.toImmutableList
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import kotlin.coroutines.coroutineContext
 
 /**
  * Created by MD on 29.12.22.
@@ -27,7 +30,7 @@ class CounterScreenViewModel(
     init {
         val shownProductsFlow = productRepository.getShownProductsFlow()
 
-        ioScope.launch {
+        launch {
             if (shownProductsFlow.first().isEmpty()) {
                 // if there are no products in the database, add the initial one
                 productRepository.addInitialProduct(resources.getString(InitialProductName))
@@ -35,8 +38,10 @@ class CounterScreenViewModel(
         }
 
         shownProductsFlow
-            .onEach { updateState { copy(products = it.toImmutableList()) } }
-            .launchIn(ioScope)
+            .onEach {
+                updateState { copy(products = it.toImmutableList()) }
+            }
+            .launchIn(viewModelScopeExHandled)
     }
 
     override fun onEvent(event: CounterEvent) {
@@ -51,14 +56,14 @@ class CounterScreenViewModel(
     }
 
     private fun onProductClick(id: Int) {
-        ioScope.launch {
+         launch {
             productRepository.incrementProductCount(id)
             sendCommand(CounterCommand.PerformHapticFeedback)
         }
     }
 
     private fun onMenuItemClick(menuItem: MenuItem, id: Int) {
-        ioScope.launch {
+        launch {
             when (menuItem) {
                 MenuItem.Edit -> {
                     sendCommand(CounterCommand.OpenEdit(id))
@@ -79,7 +84,7 @@ class CounterScreenViewModel(
     }
 
     private fun onCountSet(id: Int, count: Int) {
-        ioScope.launch {
+        launch {
             productRepository.setProductCount(id, count, HistoryItemType.MANUAL)
         }
     }
@@ -89,13 +94,13 @@ class CounterScreenViewModel(
     }
 
     private fun onClearAllConfirmed() {
-       ioScope.launch {
-              productRepository.clearAllAndAddInitialProduct(resources.getString(InitialProductName))
-       }
+        launch {
+            productRepository.clearAllAndAddInitialProduct(resources.getString(InitialProductName))
+        }
     }
 
     private fun onAddNewClicked() {
-        ioScope.launch {
+        launch {
             productRepository.getShownProductsFlow()
             sendCommand(CounterCommand.OpenAdd)
         }
