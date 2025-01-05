@@ -10,5 +10,5 @@ object BuildValues {
 
     val javaVersion : JavaVersion = JavaVersion.VERSION_1_8
     const val jvmTarget = "1.8"
-    const val kotlinCompilerExtensionVersion = "1.2.0"
+    const val kotlinCompilerExtensionVersion = "1.3.2"
 }
